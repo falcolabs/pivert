@@ -1,0 +1,38 @@
+{
+    "name": "pivert",
+    "version": "0.1.0",
+    "description": "",
+    "type": "module",
+    "scripts": {
+        "dev": "rsbuild dev",
+        "build": "rsbuild build",
+        "preview": "rsbuild preview",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "pretty": "prettier --ignore-path .gitignore --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json,svelte}\"",
+        "tauri": "tauri"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@lucide/svelte": "^0.542.0",
+        "@rsbuild/core": "^1.5.0",
+        "@tauri-apps/api": "^2",
+        "@tauri-apps/plugin-opener": "^2",
+        "gsap": "^3.13.0"
+      },
+      "devDependencies": {
+        "@types/node": "^24.3.0",
+        "@sveltejs/adapter-static": "^3.0.6",
+        "@sveltejs/kit": "^2.9.0",
+        "@rsbuild/plugin-sass": "^1.4.0",
+        "@rsbuild/plugin-svelte": "^1.0.11",
+        "@tauri-apps/cli": "^2",
+        "svelte": "^5.0.0",
+        "svelte-check": "^4.0.0",
+        "typescript": "~5.6.2",
+        "vite": "^6.0.3",
+        "sass-embedded": "^1.91.0",
+        "prettier": "^3.6.2",
+        "prettier-plugin-svelte": "^3.4.0"
+    }
+}

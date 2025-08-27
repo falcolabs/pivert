@@ -1,0 +1,47 @@
+$font-stack: "Plus Jakarta Sans", -apple-system, system-ui, "Adwaita Sans", "Inter", "SF Pro Text", "SF Pro Display", "Segoe UI", sans-serif;
+
+:root
+  --theme-color-bedrock: #FFFFFF
+  --theme-color-slate: #F7F7F7
+  --theme-color-slate-light: #FFFFFF
+  --theme-color-slate2: #F0EAEA
+  --theme-color-foreground: #060606
+  --theme-color-foreground2: #534E4E
+  --theme-color-accent: #FFF494
+  --theme-color-accent2: #FFFBD4
+  --theme-color-accent-border: #EDE392
+  --theme-color-accent-contrast: #060606
+  --theme-color-green: #D2EBBE
+  --theme-color-green2: #B4D09D
+  --theme-color-link: #1A6BB1
+  --theme-color-blue: #BBE7EF
+  --theme-color-blue2: #3BA6BA
+  --theme-color-blue-three: #4CCBE2
+  --theme-color-blue-four: #BCC5E3
+  --theme-color-red: #FF9EA4
+  --theme-color-red2: #D97B81
+
+.theme-dark
+  --theme-color-bedrock: #11111B
+  --theme-color-slate: #1E1E2E
+  --theme-color-slate-light: #313244
+  --theme-color-slate2: #313244
+  --theme-color-foreground: #CDD6F4
+  --theme-color-foreground2: #A6ADC8
+  --theme-color-accent: #F9E2AF
+  --theme-color-accent2: #DC9F18
+  --theme-color-accent-border: #D4C094
+  --theme-color-accent-contrast: #11111B
+  --theme-color-green: #A6E3A1
+  --theme-color-green2: #87C182
+  --theme-color-link: #1A6BB1
+  --theme-color-blue: #B4BEFE
+  --theme-color-blue2: #B4BEFE
+  --theme-color-blue-three: #7283EE
+  --theme-color-blue-four: #A6AEDD
+  --theme-color-red: #FF9EA4
+  --theme-color-red2: #D1767B
+
+
+@function get($color-name)
+  @return var(--theme-color-#{$color-name})
