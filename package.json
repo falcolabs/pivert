@@ -19,8 +19,8 @@
         "@tauri-apps/api": "^2",
         "@tauri-apps/plugin-opener": "^2",
         "gsap": "^3.13.0"
-      },
-      "devDependencies": {
+    },
+    "devDependencies": {
         "@types/node": "^24.3.0",
         "@sveltejs/adapter-static": "^3.0.6",
         "@sveltejs/kit": "^2.9.0",
@@ -30,7 +30,6 @@
         "svelte": "^5.0.0",
         "svelte-check": "^4.0.0",
         "typescript": "~5.6.2",
-        "vite": "^6.0.3",
         "sass-embedded": "^1.91.0",
         "prettier": "^3.6.2",
         "prettier-plugin-svelte": "^3.4.0"

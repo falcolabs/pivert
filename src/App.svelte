@@ -13,6 +13,13 @@
         settings: 4
     }
     let section_list: number[] = $state([0])
+    let app_state = $state({
+        metrics: {
+            health: 100,
+                        
+        }
+    })
+
     const swipeTo = (id: string) => {
         if (id == activeSection) return;
         let destination = SECTIONS_INDEX[id];
@@ -60,12 +67,13 @@
 
     .nav {
         position: fixed;
-        bottom: 0.25rem;
+        bottom: 0.75rem;
         left: 50%;
         transform: translate(-50%);
     }
 
     .container {
+        padding-top: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
