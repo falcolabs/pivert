@@ -15,12 +15,15 @@ JWTClaim = TypedDict("JWTClaim", {
     "exp": int
 })
 
+def new_uuid() -> str:
+    return str(uuid.uuid4())
+
 
 def register(username: str, password: str) -> bool:
     hashed_pw = base64.b64encode(
         bcrypt.hashpw(password.encode(), bcrypt.gensalt(12))
     ).decode()
-    uid = str(uuid.uuid4())
+    uid = new_uuid()
     db.AuthStore.insert(schema.AuthenticationEntry(userID=uid, hashedPassword=hashed_pw))
 
     db.UserStore.insert(
@@ -31,7 +34,7 @@ def register(username: str, password: str) -> bool:
             public=True,
             disabled=False,
             achievements=schema.UserAchievements(badges=[], leveling=[]),
-            metrics=schema.UserMetrics(heath=100, energy=0, exp=0),
+            metrics=schema.UserMetrics(health=100, energy=0, exp=0),
             social=schema.UserSocialLink(facebook="", threads="", tiktok=""),
             relationships=[],
             habits=[],

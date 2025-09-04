@@ -8,10 +8,9 @@ from typing import (
     TypeAlias,
     Literal,
     Optional,
-    NotRequired,
     Generic,
     TypeVar,
-    Mapping,
+    Union, Mapping, Callable, Iterable,
     Any,
 )
 
@@ -25,7 +24,7 @@ RelationshipLevel = Literal["none", "friends", "close"]
 T = TypeVar("T", bound=BaseModel)
 
 class UserMetrics(BaseModel):
-    heath: int
+    health: int
     energy: int
     exp: int
 
@@ -86,10 +85,14 @@ class Todo(BaseModel):
     taskID: TodoUUID
     name: str
     description: Optional[str]
-    congratsMessage: str
+    congratsMessage: Optional[str]
     rewards: TaskReward
     deadline: int
+    completed: bool
 
+class ShortcutTasks(BaseModel):
+    habits: list[Habit]
+    todos: list[Todo]
 
 class QueryResultMultiple(tuple[T]):
     def __new__(cls, *args: T):
@@ -126,21 +129,21 @@ class QueryResultSingle(Generic[T]):
 
 
 class TypedTable(Generic[T], ABC):
-    __table__: Table
+    table: Table
 
     def __init__(self, t: Table):
-        self.__table__ = t
+        self.table = t
 
     def insert(self, obj: T) -> int:
-        return self.__table__.insert(obj.model_dump())  # type: ignore[reportArgumentType]
+        return self.table.insert(obj.model_dump())  # type: ignore[reportArgumentType]
 
     def query(
         self, cond: tinydb.queries.QueryLike, n: int | None = None
     ) -> tuple[T]:
         if n is None:
-            return QueryResultMultiple(*[from_json(i) for i in self.__table__.search(cond)])  # type: ignore[reportReturnType]
+            return QueryResultMultiple(*[from_json(i) for i in self.table.search(cond)])  # type: ignore[reportReturnType]
         else:
-            return QueryResultMultiple(*[from_json(i) for i in self.__table__.search(cond)[:n]])  # type: ignore[reportReturnType]
+            return QueryResultMultiple(*[from_json(i) for i in self.table.search(cond)[:n]])  # type: ignore[reportReturnType]
 
     @property
     @abstractmethod
@@ -150,8 +153,16 @@ class TypedTable(Generic[T], ABC):
     def query_first(
         self, cond: tinydb.queries.QueryLike
     ) -> T:
-        result = self.__table__.search(cond)
+        result = self.table.search(cond)
         return QueryResultSingle(self.model.model_validate(result[0]) if len(result) >= 1 else None)  # type: ignore[reportReturnType]
+
+    def update(
+        self,
+        fields: Union[Mapping, Callable[[Mapping], None]],
+        cond: Optional[tinydb.queries.QueryLike] = None,
+        doc_ids: Optional[Iterable[int]] = None,
+    ) -> list[int]:
+        return self.table.update(fields, cond, doc_ids)
 
 
 class __AuthStore(TypedTable[AuthenticationEntry]):
