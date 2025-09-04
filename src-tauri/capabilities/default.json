@@ -16,6 +16,9 @@
         },
         {
           "url": "https://pivert.falcolabs.org"
+        },
+                {
+          "url": "http://localhost:6942"
         }
       ],
       "deny": []

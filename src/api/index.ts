@@ -1,12 +1,12 @@
 export * as requests from "./backend";
 import * as requests from "./backend";
 
-import { load, Store } from "@tauri-apps/plugin-store";
+import { load, LazyStore, Store } from "@tauri-apps/plugin-store";
 
-let _store: Store;
+let _store: LazyStore;
 
 export const loadStore = async () => {
-    _store = await load("store.json", {
+    _store = new LazyStore("store.json", {
         autoSave: true,
         defaults: {
             userID: undefined,
@@ -17,6 +17,10 @@ export const loadStore = async () => {
             todos: undefined,
         },
     });
+    _store.save();
+    let t = await _store.get("token");
+    console.log("syncing token", t);
+    requests.setToken(t);
 };
 
 export type StoreType = {
@@ -44,13 +48,19 @@ export const store = {
         return await _store.set(key, value);
     },
 };
-
 export async function login(username: string, password: string): Promise<void> {
     let r = await requests.login(username, password);
     _store.set("token", r.access_token);
+    requests.setToken(r.access_token);
 }
 
 export async function isLoggedIn(): Promise<boolean> {
-    if (_store === undefined) return false;
-    return (await _store.get("token")) !== undefined;
+    if (_store === undefined) {
+        return false;
+    }
+    let ft = await store.get("token");
+    if (ft === undefined) {
+        return false;
+    }
+    return true;
 }

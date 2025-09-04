@@ -82,6 +82,25 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> schema.
         token_type="bearer",
     )
 
+class AuthBodyJSON(schema.BaseModel):
+    username: str
+    password: str
+
+@APP.post("/api/v1/login")
+def login(data: AuthBodyJSON) -> schema.Token:
+    success, user, fail_reason = auth.login(data.username, data.password)
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"{fail_reason}. A sincere fuck you from FTUGate",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    assert user != None
+    return schema.Token(
+        access_token=auth.generate_token(user.username, user.userID, PRIVATE_KEY),
+        token_type="bearer",
+    )
+
 @APP.get("/api/v1/currentSession")
 def verify_token(_: CurrentUser):
     return { "success": True, "message": "OK",}
