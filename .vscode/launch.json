@@ -7,18 +7,6 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Pivert Server",
-            "cargo": {
-                "args": [
-                    "build",
-                    "--manifest-path=./server/Cargo.toml",
-                ]
-            },
-            "args": []
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
             "name": "Tauri Development Debug",
             "cargo": {
                 "args": [

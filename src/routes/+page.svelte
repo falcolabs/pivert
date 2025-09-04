@@ -1,8 +1,15 @@
 <script lang="ts">
-    import Navbar from "./components/Navbar.svelte";
-    import Home from "./components/sections/Home.svelte";
-    import Social from "./components/sections/Social.svelte";
+    import Navbar from "../components/Navbar.svelte";
+    import Home from "../components/sections/Home.svelte";
+    import Social from "../components/sections/Social.svelte";
     import gsap from "gsap";
+    import { isLoggedIn, login, requests, loadStore } from "../api";
+    import Login from "../components/sections/Login.svelte";
+    import { onMount } from "svelte";
+
+    onMount(async () => {
+        await loadStore();
+    })
 
     let activeSection = $state("home");
     const SECTIONS_INDEX: {[key: string]: number} = {
@@ -13,19 +20,11 @@
         settings: 4
     }
     let section_list: number[] = $state([0])
-    let app_state = $state({
-        metrics: {
-            health: 100,
-                        
-        }
-    })
 
     const swipeTo = (id: string) => {
         if (id == activeSection) return;
         let destination = SECTIONS_INDEX[id];
         let current = SECTIONS_INDEX[activeSection];
-
-
         if (destination > current) {
             section_list.push(destination)
             gsap.to(".content:first-child",  { x: "-50%", duration: 0.1})
@@ -48,22 +47,29 @@
     {/if}
 {/snippet}
 
-
 <main class="container theme-light">
-    <div class="content">
-        {#each section_list as id}
-            <div>
-                {@render section(id)}
+    dasddasd
+    <svelte:boundary>
+        {#if await isLoggedIn()}
+            <div class="content">
+                {#each section_list as id}
+                    <div>
+                        {@render section(id)}
+                    </div>
+                {/each}
             </div>
-        {/each}
-    </div>
-    <div class="nav">
-        <Navbar {activeSection} {swipeTo} />
-    </div>
+            <div class="nav">
+                <Navbar {activeSection} {swipeTo} />
+            </div>
+        {:else}
+            <Login />
+        {/if}
+        {#snippet pending()}{/snippet}
+    </svelte:boundary>
 </main>
 
 <style lang="scss">
-    @use "styles/_theme";
+    @use "../styles/_theme";
 
     .nav {
         position: fixed;
@@ -73,7 +79,7 @@
     }
 
     .container {
-        padding-top: 1rem;
+        // padding-top: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

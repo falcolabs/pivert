@@ -12,8 +12,8 @@
   "app": {
     "windows": [
       {
-        "title": "pivert",
-        "width": 450,
+        "title": "Pivert",
+        "width": 430,
         "height": 800
       }
     ],
