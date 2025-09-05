@@ -1,26 +1,35 @@
 export * as requests from "./backend";
+import { writable, type Writable } from "svelte/store";
 import * as requests from "./backend";
 
-import { load, LazyStore, Store } from "@tauri-apps/plugin-store";
+import { LazyStore } from "@tauri-apps/plugin-store";
 
 let _store: LazyStore;
+
+// @ts-expect-error
+export const loggedIn: Writable<boolean> = writable(null);
 
 export const loadStore = async () => {
     _store = new LazyStore("store.json", {
         autoSave: true,
         defaults: {
-            userID: undefined,
-            username: undefined,
-            user: undefined,
-            token: undefined,
-            habits: undefined,
-            todos: undefined,
+            userID: null,
+            username: null,
+            user: null,
+            token: null,
+            habits: null,
+            todos: null,
         },
     });
     _store.save();
     let t = await _store.get("token");
     console.log("syncing token", t);
-    requests.setToken(t);
+    requests.updateToken();
+    if (t !== "") {
+        loggedIn.set(true);
+        return;
+    }
+    loggedIn.set(false);
 };
 
 export type StoreType = {
@@ -50,17 +59,17 @@ export const store = {
 };
 export async function login(username: string, password: string): Promise<void> {
     let r = await requests.login(username, password);
-    _store.set("token", r.access_token);
-    requests.setToken(r.access_token);
+    await _store.set("token", r.access_token);
+    localStorage.setItem("token", r.access_token);
+    requests.updateToken();
+    loggedIn.set(true);
+    console.log("logged in");
 }
 
-export async function isLoggedIn(): Promise<boolean> {
-    if (_store === undefined) {
-        return false;
-    }
-    let ft = await store.get("token");
-    if (ft === undefined) {
-        return false;
-    }
-    return true;
+export async function logout() {
+    await _store.set("token", null);
+    localStorage.setItem("token", "");
+    requests.updateToken();
+    loggedIn.set(false);
+    console.log("logged out");
 }

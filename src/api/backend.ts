@@ -1,12 +1,16 @@
 import { fetch } from "@tauri-apps/plugin-http";
+import { logout } from "./index"
+export let token: string = "";
 
-let token: string = "";
-
-export const setToken = (t: string) => {
-    token = t;
+export const updateToken = () => {
+    token = window.localStorage.getItem("token")!;
 };
+updateToken();
 
-const reqURL = (path: string, params: { [key: string]: string } = {}): URL => {
+export const reqURL = (
+    path: string,
+    params: { [key: string]: string } = {},
+): URL => {
     let o = new URL("http://localhost:6942" + path);
     for (let [k, v] of Object.entries(params)) {
         o.searchParams.append(k, v);
@@ -31,6 +35,7 @@ export const bfetch = async (
         body: typeof payload === "string" ? payload : JSON.stringify(payload),
     });
     if (r.status != 200) {
+        await logout();
         throw new Error(JSON.stringify(await r.json()));
     }
     return r;
@@ -47,9 +52,10 @@ export const fetchJSON = async (
 export async function register(
     username: string,
     password: string,
+    displayname: string,
 ): Promise<boolean> {
     await bfetch(
-        reqURL("/api/v1/register", { username: username, password: password }),
+        reqURL("/api/v1/register", { username: username, password: password, displayname: displayname }),
     );
     return true;
 }

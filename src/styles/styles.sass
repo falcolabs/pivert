@@ -3,7 +3,7 @@
 main, html
     font-family: theme.$font-stack
     line-height: normal
-    font-size: 18px
+    font-size: 16px
     font-weight: 400
     font-style: normal
     line-height: normal
@@ -13,24 +13,27 @@ main, html
     -ms-user-select: none
     user-select: none
 
+.dodge-topbar
+    padding-top: 1rem
+
 html, body
     height: 100%
     width: 100%
     overflow-x: hidden
 
-h1
+h1, .bold-title
     font-size: 1.3rem
     font-weight: 700
 
-h2
+h2, .card-title
     font-size: 1.16rem
-    font-weight: 400
+    font-weight: 600
 
-h3
+h3, .text-bold
     font-size: 1rem
     font-weight: 600
 
-p
+p, .text
     font-size: 1rem
     font-weight: 400
 
@@ -43,3 +46,28 @@ a
     font-size: 1rem
     font-weight: 400
     color: theme.get(link)
+
+img
+    user-drag: none
+    -webkit-user-drag: none
+
+.hover-darken
+    transition: ease 100ms
+
+.hover-darken:hover
+    filter: brightness(0.9)
+
+input
+    padding: 1rem 1.5rem 1rem 1.5rem
+    background-color: theme.get(slate)
+    border-radius: 18px
+    width: 100%
+    outline: none
+
+input:focus
+    outline: solid 2px theme.get(blue2)
+
+.btn-accent
+    padding: 1rem 1.5rem 1rem 1.5rem
+    background-color: theme.get(accent)
+    border-radius: 99px

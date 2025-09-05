@@ -19,7 +19,7 @@ def new_uuid() -> str:
     return str(uuid.uuid4())
 
 
-def register(username: str, password: str) -> bool:
+def register(username: str, password: str, displayname: str) -> bool:
     hashed_pw = base64.b64encode(
         bcrypt.hashpw(password.encode(), bcrypt.gensalt(12))
     ).decode()
@@ -30,7 +30,7 @@ def register(username: str, password: str) -> bool:
         schema.User(
             userID=uid,
             username=username,
-            displayname=None,
+            displayname=displayname,
             public=True,
             disabled=False,
             achievements=schema.UserAchievements(badges=[], leveling=[]),
