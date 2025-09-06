@@ -1,9 +1,8 @@
-FROM rust:alpine as builder
+FROM python:3-alpine
 WORKDIR /usr/src/pivert-server
 COPY server .
-RUN apk add --no-cache alpine-sdk
-RUN cargo install --path .
+COPY pyproject.toml .
 
-FROM alpine:latest
-COPY --from=builder /usr/local/cargo/bin/pivert-server /usr/local/bin/pivert-server
-CMD ["pivert-server"]
+RUN pip install -e .
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
