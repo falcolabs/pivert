@@ -3,13 +3,14 @@ import auth
 import _crypto
 import db
 import schema
+import pivert_resource
 from enum import Enum
 
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
+from fastapi.staticfiles import StaticFiles
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 PUBLIC_KEY, PRIVATE_KEY = _crypto.init_keystore()
@@ -20,7 +21,7 @@ Project Pivert Server API Endpoint
 ==================================
 
 The API is located at /api/v1/
-OpenAPI specs is located at /openai.json
+OpenAPI specs is located at /openapi.json
 Documentation is located at /docs and /redoc
 LLMs instruction is located at /llms.txt
 """
@@ -48,6 +49,9 @@ class UserDataQueryType(str, Enum):
 class TaskType(str, Enum):
     todo = "todo"
     habit = "habit"
+
+
+APP.mount("/static", StaticFiles(directory="./static/"), name="static")
 
 
 @APP.get("/")
@@ -166,7 +170,8 @@ def complete_task(
                 nm = schema.UserMetrics(
                     health=current_user.metrics.health + r.rewards.health,
                     energy=current_user.metrics.energy + r.rewards.energy,
-                    exp=current_user.metrics.exp + r.rewards.exp,
+                    xp=current_user.metrics.xp + r.rewards.xp,
+                    allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
                 )
                 db.UserStore.update(
                     {"metrics": nm.model_dump()},
@@ -180,7 +185,8 @@ def complete_task(
                 nm = schema.UserMetrics(
                     health=current_user.metrics.health + r.rewards.health,
                     energy=current_user.metrics.energy + r.rewards.energy,
-                    exp=current_user.metrics.exp + r.rewards.exp,
+                    xp=current_user.metrics.xp + r.rewards.xp,
+                    allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
                 )
                 db.UserStore.update(
                     {"metrics": nm.model_dump()},
@@ -245,3 +251,18 @@ def shortcut_tasks(current_user: CurrentUser) -> schema.ShortcutTasks:
             )
         ),
     )
+
+@APP.get("/api/v1/resources/badges/{badgeID}")
+def get_badge(badgeID: str):
+    if badgeID not in pivert_resource.ALL_BADGES.keys():
+        raise HTTPException(status_code=404, detail=f"No badge with id {badgeID} found.")
+
+    return pivert_resource.ALL_BADGES[badgeID]
+
+
+@APP.get("/api/v1/resources/leveling_categories/{catID}")
+def get_leveling_category(catID: str):
+    if catID not in pivert_resource.ALL_LEVELING_CATEGORIES.keys():
+        raise HTTPException(status_code=404, detail=f"No badge with id {catID} found.")
+
+    return pivert_resource.ALL_LEVELING_CATEGORIES[catID]

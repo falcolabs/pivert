@@ -9,9 +9,10 @@ type TaskType = "habit" | "todo";
 type UserDataQueryType = "uuid" | "username";
 
 type UserMetrics = {
-    health: int;
-    energy: int;
-    exp: int;
+    health: number;
+    energy: number;
+    xp: number;
+    allTimeXP: number;
 };
 
 type UserSocialLink = {
@@ -39,9 +40,10 @@ type User = {
     userID: UserUUID;
     username: string;
     displayname: string?;
+    avatarURL: string;
     public: bool;
     disabled: bool;
-    creationTimestamp: int;
+    creationTimestamp: number;
 
     metrics: UserMetrics;
     social: UserSocialLink;
@@ -63,9 +65,9 @@ type Relationship = {
 };
 
 type TaskReward = {
-    health: int;
-    energy: int;
-    exp: int;
+    health: number;
+    energy: number;
+    xp: number;
 };
 
 type Habit = {
@@ -82,11 +84,23 @@ type Todo = {
     description: string?;
     congratsMessage: string?;
     rewards: TaskReward;
-    deadline: int;
+    deadline: number;
     completed: bool;
 };
 
 type ShortcutTasks = {
     habits: Habit[];
     todos: Todo[];
+};
+
+type LevelingCategoryInfo = {
+    catID: CategoryID;
+    name: string;
+    allTimeXPRequired: number[];
+};
+type BadgeInfo = {
+    badgeID: BadgeUUID;
+    name: string;
+    maxLevel: number;
+    coverArtURL: string[];
 };

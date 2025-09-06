@@ -26,7 +26,8 @@ T = TypeVar("T", bound=BaseModel)
 class UserMetrics(BaseModel):
     health: int
     energy: int
-    exp: int
+    xp: int
+    allTimeXP: int
 
 class UserSocialLink(BaseModel):
     facebook: str
@@ -49,6 +50,7 @@ class User(BaseModel):
     userID: UserUUID
     username: str
     displayname: Optional[str]
+    avatarURL: str
     public: bool
     disabled: bool
     creationTimestamp: int
@@ -72,7 +74,7 @@ class Relationship(BaseModel):
 class TaskReward(BaseModel):
     health: int
     energy: int
-    exp: int
+    xp: int
 
 class Habit(BaseModel):
     taskID: HabitUUID
@@ -93,6 +95,18 @@ class Todo(BaseModel):
 class ShortcutTasks(BaseModel):
     habits: list[Habit]
     todos: list[Todo]
+
+class LevelingCategoryInfo(BaseModel):
+    catID: CategoryID
+    name: str
+    allTimeXPRequired: list[int]
+    maxLevel: int
+
+class BadgeInfo(BaseModel):
+    badgeID: BadgeUUID
+    name: str
+    maxLevel: int
+    coverArtURL: list[str]
 
 class QueryResultMultiple(tuple[T]):
     def __new__(cls, *args: T):
