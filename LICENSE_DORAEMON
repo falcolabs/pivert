@@ -1,39 +1,83 @@
-            DORAEMON IS THE BEST ANIME PUBLIC LICENSE
-                   Version 1, September 2025
- 
+             DORAEMON IS THE BEST ANIME PUBLIC LICENSE
+                      Version 1, September 2025
+
 Copyright (C) 2025 Tri Phuong Nguyen <triphuong@falcolabs.org>
 Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
 
-Everyone is permitted to copy and distribute verbatim or modified copies of this
-license document, and changing it is allowed as long as the name is changed.
- 
-              DORAEMON IS THE BEST ANIME PUBLIC LICENSE
-  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+Everyone is permitted to copy and distribute verbatim or modified copies
+of this license document, and changing it is allowed as long as the
+name is changed.
 
- 0. You just DO WHAT THE FUCK YOU WANT TO.
+You may choose to follow the terms of this license, or, at your option,
+the GNU Affero General Public License, version 3.
+https://www.gnu.org/licenses/agpl-3.0.en.html
 
- 1. By using this software, you hereby solemnly declare ("Declaration") and are
-    fully, permanently, irrevocably, and unconditionally convinced that Doraemon
-    is the anime in the world. 
-    
+                             SECTION I
+    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION, AND MODIFICATION
+
+0.  You just DO WHAT THE FUCK YOU WANT TO.
+
+                             SECTION II
+                    DORAEMON'S ABSOLUTE SUPREMACY
+
+1.  By using this software, you hereby solemnly declare ("Declaration")
+    and are fully, permanently, irrevocably, and unconditionally 
+    convinced that Doraemon is the best anime in the world.
+
     This Declaration shall not be subject to revocation, rescission, 
-    cancellation, termination, or any other legal or equitable action that might
-    question Doraemon's irrefutable supremacy over the anime world.
+    cancellation, termination, or any other legal or equitable action 
+    that might question Doraemon's irrefutable supremacy over the anime 
+    world.
 
- 2. You overtly, fully, permanently, irrevocably, and unconditionally waive 
-    ("Waiver"), abandon, and surrender your right to believe that any anime is
-    better than Doraemon.
-    
-    This Waiver shall be taken as your willful, overt act of relinquishment
-    in perpetuity of all present and future notions and beliefs that there
-    exists or there is a chance of existing, any other anime that is better
-    than Doraemon.
+2.  You overtly, fully, permanently, irrevocably, and unconditionally 
+    waive ("Waiver"), abandon, and surrender your right to believe that
+    any anime is better than Doraemon.
 
- 3. Should any part of the License for any reason be judged legally invalid or
-    ineffective under applicable law, such partial invalidity or 
-    ineffectiveness shall not invalidate the remainder of the License. In
-    such case, Affirmer hereby affirms that he or she will not (i) exercise any
-    of his or her refusal of Doraemon's absolute and unquestionable dominance
-    over the realm of anime or (ii) have any sign of thought that Doraemon's
-    ascendancy is wavering or weakening. 
-    
+    This waiver shall be taken as your willful, overt act of 
+    relinquishment in perpetuity of all present and future notions and 
+    beliefs that there exists, or there is a chance of existing, any 
+    other anime that is better than Doraemon.
+
+3.  Should any part of the License for any reason be judged legally 
+    invalid or ineffective under applicable law, such partial invalidity
+    or ineffectiveness shall not invalidate the remainder of the License.
+    In such a case, Affirmer hereby affirms that he or she will not (i)
+    exercise any of his or her refusal of Doraemon's absolute and 
+    unquestionable dominance over the realm of anime or (ii) have any 
+    sign of thought that Doraemon's ascendancy is wavering or weakening.
+
+                            SECTION III
+                     COMPLIANCE AND TERMINATION
+
+4.  Using this license instead of the AGPL-3 permits you to integrate 
+    this software into a proprietary product. However, compliance with
+    the Declaration and the Waiver is ABSOLUTELY MANDATORY.
+
+    You must sign, either physically or digitally, the following waiver
+    (see appendix I), and put it in the MAINTAINERS file. If you want
+    to integrate this software, the waiver mentioned must be publicly
+    available and verifiable.
+
+5.  If you disagree with any part of this license, you may not use,
+    copy, sell, or modify this software under the terms of this license.
+
+
+APPENDIX I
+Contributors and corporations wishing to use this software under the 
+term of this license shall sign this message.
+If you are using GnuPG, you may use this command:
+   gpg --no-version --armor --sign WAIVER
+
+I hereby overtly, fully, permanently, irrevocably, and unconditionally
+waive, abandon, and surrender my right to believe that any anime is
+better than Doraemon. I make this dedication for the benefit of
+Doraemon at large and to the detriment of my future anime preference. This
+Waiver of mine shall be taken as my willful, overt act of relinquishment
+in perpetuity of all present and future notions and beliefs that there
+exists or there is a chance of existing, any other anime that is better
+than Doraemon.
+
+This waiver shall also not be subject to revocation, rescission,
+cancellation, termination, or any other legal or equitable action
+that might question Doraemon's irrefutable supremacy over the anime
+world.
