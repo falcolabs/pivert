@@ -23,4 +23,6 @@ You may switch `bun` for any other runtimes.
 You may also run a development version on your computer by using the presets available in `.vscode/launch.json`.
 
 ## License
-This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the [GNU Affero General Public License](./LICENSE), version 3, or at your option, the [DORAEMON IS THE BEST ANIME PUBLIC LICENSE, version 1](./LICENSE_DORAEMON).
+This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the [GNU Affero General Public License, version 3](./LICENSE), or at your option (required if you want to intergrate it into a proprietary product), the [DORAEMON IS THE BEST ANIME PUBLIC LICENSE, version 1](./LICENSE_DORAEMON).
+
+

@@ -1,26 +1,29 @@
              DORAEMON IS THE BEST ANIME PUBLIC LICENSE
                       Version 1, September 2025
 
-Copyright (C) 2025 Tri Phuong Nguyen <triphuong@falcolabs.org>
-Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+Copyright (C) 2025 FalcoLabs <support@falcolabs.org>
 
 Everyone is permitted to copy and distribute verbatim or modified copies
 of this license document, and changing it is allowed as long as the
 name is changed.
 
-You may choose to follow the terms of this license, or, at your option,
-the GNU Affero General Public License, version 3.
-https://www.gnu.org/licenses/agpl-3.0.en.html
+This software is dual-licensed under either:
+  1. The DORAEMON IS THE BEST ANIME PUBLIC LICENSE v1.0, OR
+  2. The GNU Affero General Public License v3.0 (AGPL-3.0).
+You may choose either license at your option.
+
 
                              SECTION I
     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION, AND MODIFICATION
 
-0.  You just DO WHAT THE FUCK YOU WANT TO.
+ 0. You just DO WHAT THE FUCK YOU WANT TO.
+
+    Restrictions, if any, are listed below.
 
                              SECTION II
                     DORAEMON'S ABSOLUTE SUPREMACY
 
-1.  By using this software, you hereby solemnly declare ("Declaration")
+ 1. By using this software, you hereby solemnly declare ("Declaration")
     and are fully, permanently, irrevocably, and unconditionally 
     convinced that Doraemon is the best anime in the world.
 
@@ -29,7 +32,7 @@ https://www.gnu.org/licenses/agpl-3.0.en.html
     that might question Doraemon's irrefutable supremacy over the anime 
     world.
 
-2.  You overtly, fully, permanently, irrevocably, and unconditionally 
+ 2. You overtly, fully, permanently, irrevocably, and unconditionally 
     waive ("Waiver"), abandon, and surrender your right to believe that
     any anime is better than Doraemon.
 
@@ -38,7 +41,7 @@ https://www.gnu.org/licenses/agpl-3.0.en.html
     beliefs that there exists, or there is a chance of existing, any 
     other anime that is better than Doraemon.
 
-3.  Should any part of the License for any reason be judged legally 
+ 3. Should any part of the License for any reason be judged legally 
     invalid or ineffective under applicable law, such partial invalidity
     or ineffectiveness shall not invalidate the remainder of the License.
     In such a case, Affirmer hereby affirms that he or she will not (i)
@@ -49,24 +52,64 @@ https://www.gnu.org/licenses/agpl-3.0.en.html
                             SECTION III
                      COMPLIANCE AND TERMINATION
 
-4.  Using this license instead of the AGPL-3 permits you to integrate 
-    this software into a proprietary product. However, compliance with
+ 4. Using this license instead of the AGPL-3 permits you to integrate 
+    this software into a proprietary product. However, if you chose to
+    use this software under the terms of this license, compliance with
     the Declaration and the Waiver is ABSOLUTELY MANDATORY.
 
     You must sign, either physically or digitally, the following waiver
     (see appendix I), and put it in the MAINTAINERS file. If you want
-    to integrate this software, the waiver mentioned must be publicly
-    available and verifiable.
+    to make this software proprietary, the signed Waiver must be publicly
+    released on official channels, websites, press releases, or other
+    places visible to the general public.
 
-5.  If you disagree with any part of this license, you may not use,
-    copy, sell, or modify this software under the terms of this license.
+ 5. If you disagree with any part of this license, you may not use,
+    copy, sell, or modify, or otherwise deal with this software under
+    the terms of this license.
 
+                             SECTION IV
+                LIMITATIONS OF WARRANTY AND LIABILITY
+                        
+ 6. THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+    APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE 
+    COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
+    WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, 
+    INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+    MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE
+    RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH 
+    YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF 
+    ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
-APPENDIX I
+ 7. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN 
+    WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES
+    AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU 
+    FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR 
+    CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+    THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA
+    BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD 
+    PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER 
+    PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED 
+    OF THE POSSIBILITY OF SUCH DAMAGES.
+
+ 8. If the disclaimer of warranty and limitation of liability provided
+    above cannot be given local legal effect according to their terms,
+    reviewing courts shall apply local law that most closely 
+    approximates an absolute waiver of all civil liability in 
+    connection with the Program, unless a warranty or assumption of 
+    liability accompanies a copy of the Program in return for a fee.
+
+                    END OF TERMS AND CONDITIONS
+
+                            Appendix I
+                   Contributors and Users Waiver
+
 Contributors and corporations wishing to use this software under the 
-term of this license shall sign this message.
+term of this license instead of the AGPL-3 shall sign the following
+waiver.
+
 If you are using GnuPG, you may use this command:
-   gpg --no-version --armor --sign WAIVER
+$ gpg --no-version --armor --sign WAIVER
+This will output the signed waiver to WAIVER.asc.
 
 I hereby overtly, fully, permanently, irrevocably, and unconditionally
 waive, abandon, and surrender my right to believe that any anime is
@@ -81,3 +124,4 @@ This waiver shall also not be subject to revocation, rescission,
 cancellation, termination, or any other legal or equitable action
 that might question Doraemon's irrefutable supremacy over the anime
 world.
+
