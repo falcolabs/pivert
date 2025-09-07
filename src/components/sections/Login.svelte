@@ -3,9 +3,10 @@
     import PasswordInput from "../PasswordInput.svelte";
     import Signup from "./Signup.svelte";
     import { fade } from "svelte/transition";
+    import { monoco } from "@monokai/monoco-svelte";
 
-    let username: string;
-    let password: string;
+    let username: string = $state("");
+    let password: string = $state("");
     let isSignup: boolean = $state(false);
 </script>
 
@@ -29,6 +30,11 @@
                 }}
             >
                 <input
+                    use:monoco={{
+                        borderRadius: 24,
+                        smoothing: 0.6,
+                        clip: true,
+                    }}
                     class="text-bold"
                     bind:value={username}
                     id="username"
@@ -39,6 +45,11 @@
                 <PasswordInput bind:value={password} placeholder="Mật khẩu" />
                 <a href="/">Quên mật khẩu?</a>
                 <input
+                    use:monoco={{
+                        borderRadius: 24,
+                        smoothing: 0.6,
+                        clip: true,
+                    }}
                     class="hover-darken btn-accent text-bold"
                     type="submit"
                     value="Đăng nhập"

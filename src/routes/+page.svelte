@@ -9,7 +9,6 @@
     import { fade } from "svelte/transition";
 
     const TEST_LOGIN = false;
-
     onMount(async () => {
         await loadStore();
         if (TEST_LOGIN) {

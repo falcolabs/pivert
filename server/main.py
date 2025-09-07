@@ -3,6 +3,7 @@ import auth
 import _crypto
 import db
 import schema
+import shortcuts
 import pivert_resource
 from enum import Enum
 
@@ -25,6 +26,9 @@ OpenAPI specs is located at /openapi.json
 Documentation is located at /docs and /redoc
 LLMs instruction is located at /llms.txt
 """
+
+# TODO - REMOVE THIS IN PRODUCTION
+db.reset_testuser()
 
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> schema.User:
@@ -168,8 +172,8 @@ def complete_task(
         case TaskType.todo:
             if r := db.TodosStore.query_first(db.Query().taskID == task_id):
                 nm = schema.UserMetrics(
-                    health=current_user.metrics.health + r.rewards.health,
-                    energy=current_user.metrics.energy + r.rewards.energy,
+                    health=min(100, current_user.metrics.health + r.rewards.health),
+                    cash=current_user.metrics.cash + r.rewards.cash,
                     xp=current_user.metrics.xp + r.rewards.xp,
                     allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
                 )
@@ -183,8 +187,8 @@ def complete_task(
         case TaskType.habit:
             if r := db.HabitsStore.query_first(db.Query().taskID == task_id):
                 nm = schema.UserMetrics(
-                    health=current_user.metrics.health + r.rewards.health,
-                    energy=current_user.metrics.energy + r.rewards.energy,
+                    health=min(100, current_user.metrics.health + r.rewards.health),
+                    cash=current_user.metrics.cash + r.rewards.cash,
                     xp=current_user.metrics.xp + r.rewards.xp,
                     allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
                 )
@@ -235,34 +239,54 @@ def create_todo(current_user: CurrentUser, todo: schema.Todo) -> str:
     return t["taskID"]
 
 
-@APP.get("/api/v1/shortcuts/tasks")
-def shortcut_tasks(current_user: CurrentUser) -> schema.ShortcutTasks:
-    return schema.ShortcutTasks(
-        todos=list(
-            map(
-                lambda t: db.TodosStore.query_first(db.Query().taskID == t),
-                current_user.todos,
-            )
-        ),
-        habits=list(
-            map(
-                lambda t: db.HabitsStore.query_first(db.Query().taskID == t),
-                current_user.todos,
-            )
-        ),
-    )
-
 @APP.get("/api/v1/resources/badges/{badgeID}")
-def get_badge(badgeID: str):
+def get_badge(badgeID: str) -> schema.BadgeInfo:
     if badgeID not in pivert_resource.ALL_BADGES.keys():
-        raise HTTPException(status_code=404, detail=f"No badge with id {badgeID} found.")
+        raise HTTPException(
+            status_code=404, detail=f"No badge with id {badgeID} found."
+        )
 
     return pivert_resource.ALL_BADGES[badgeID]
 
 
 @APP.get("/api/v1/resources/leveling_categories/{catID}")
-def get_leveling_category(catID: str):
+def get_leveling_category(catID: str) -> schema.LevelingCategoryInfo:
     if catID not in pivert_resource.ALL_LEVELING_CATEGORIES.keys():
         raise HTTPException(status_code=404, detail=f"No badge with id {catID} found.")
 
     return pivert_resource.ALL_LEVELING_CATEGORIES[catID]
+
+
+@APP.get("/api/v1/shortcuts/tasks")
+def shortcut_tasks(current_user: CurrentUser) -> shortcuts.ShortcutTasks:
+    return shortcuts.ShortcutTasks(
+        todos={
+            i: db.TodosStore.query_first(db.Query().taskID == i)
+            for i in current_user.todos
+        },
+        habits={
+            i: db.HabitsStore.query_first(db.Query().taskID == i)
+            for i in current_user.habits
+        },
+    )
+
+
+@APP.get("/api/v1/shortcuts/achievement_info")
+def shortcut_achievement_info(
+    current_user: CurrentUser,
+) -> shortcuts.ShortcutAchievementsInfo:
+    return shortcuts.ShortcutAchievementsInfo(
+        badgeInfo=pivert_resource.ALL_BADGES,
+        lvlInfo=pivert_resource.ALL_LEVELING_CATEGORIES,
+    )
+
+
+@APP.get("/api/v1/shortcuts/home")
+def shortcut_home(current_user: CurrentUser) -> shortcuts.ShortcutHome:
+    return shortcuts.ShortcutHome(
+        user=current_user,
+        achievementInfo=shortcuts.ShortcutAchievementsInfo(
+            badgeInfo=pivert_resource.ALL_BADGES,
+            lvlInfo=pivert_resource.ALL_LEVELING_CATEGORIES,
+        ),
+    )

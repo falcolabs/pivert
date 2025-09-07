@@ -1,42 +1,44 @@
-type UserUUID = string;
-type RelationshipUUID = string;
-type HabitUUID = string;
-type TodoUUID = string;
-type BadgeUUID = string;
-type CategoryID = string;
-type RelationshipLevel = "none" | "friends" | "close";
-type TaskType = "habit" | "todo";
-type UserDataQueryType = "uuid" | "username";
+export * as shortcuts from "./shortcuts";
 
-type UserMetrics = {
+export type UserUUID = string;
+export type RelationshipUUID = string;
+export type HabitUUID = string;
+export type TodoUUID = string;
+export type BadgeUUID = string;
+export type CategoryID = string;
+export type RelationshipLevel = "none" | "friends" | "close";
+export type TaskType = "habit" | "todo";
+export type UserDataQueryType = "uuid" | "username";
+
+export type UserMetrics = {
     health: number;
-    energy: number;
+    cash: number;
     xp: number;
     allTimeXP: number;
 };
 
-type UserSocialLink = {
+export type UserSocialLink = {
     facebook: string;
     threads: string;
     tiktok: string;
 };
 
-type LevelingStatus = {
+export type LevelingStatus = {
     category: CategoryID;
     progress: float;
 };
 
-type UserAchievements = {
+export type UserAchievements = {
     badges: BadgeUUID[];
     leveling: LevelingStatus[];
 };
 
-type Token = {
+export type Token = {
     access_token: string;
     token_type: string;
 };
 
-type User = {
+export type User = {
     userID: UserUUID;
     username: string;
     displayname: string?;
@@ -54,33 +56,35 @@ type User = {
     todos: TodoUUID[];
 };
 
-type AuthenticationEntry = {
+export type AuthenticationEntry = {
     userID: UserUUID;
     hashedPassword: string;
 };
 
-type Relationship = {
+export type Relationship = {
     target: UserUUID;
     level: RelationshipLevel;
 };
 
-type TaskReward = {
+export type TaskReward = {
     health: number;
-    energy: number;
+    cash: number;
     xp: number;
 };
 
-type Habit = {
+export type Habit = {
     taskID: HabitUUID;
     name: string;
+    icon: string;
     description: string?;
     congratsMessage: string;
     rewards: TaskReward;
 };
 
-type Todo = {
+export type Todo = {
     taskID: TodoUUID;
     name: string;
+    icon: string;
     description: string?;
     congratsMessage: string?;
     rewards: TaskReward;
@@ -88,17 +92,13 @@ type Todo = {
     completed: bool;
 };
 
-type ShortcutTasks = {
-    habits: Habit[];
-    todos: Todo[];
-};
-
-type LevelingCategoryInfo = {
+export type LevelingCategoryInfo = {
     catID: CategoryID;
     name: string;
     allTimeXPRequired: number[];
 };
-type BadgeInfo = {
+
+export type BadgeInfo = {
     badgeID: BadgeUUID;
     name: string;
     maxLevel: number;

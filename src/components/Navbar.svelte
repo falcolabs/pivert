@@ -1,26 +1,31 @@
 <script lang="ts">
     let { activeSection, swipeTo } = $props();
-    import { House, Earth, Dumbbell, Store, Settings } from '@lucide/svelte';
+    import { House, Earth, Dumbbell, Store, Settings } from "@lucide/svelte";
 
     const sections = {
         home: House,
         social: Earth,
         train: Dumbbell,
         rewards: Store,
-        settings: Settings
-    }
+        settings: Settings,
+    };
 
     const changeSection = (id: string) => () => {
-        swipeTo(id)
-    }
-
+        swipeTo(id);
+    };
 </script>
 
 <div class="navbar">
     {#each Object.entries(sections) as [id, icon]}
         {@const ButtonIcon = icon}
-        <button class="nav-btn" class:active={id == activeSection} onclick={changeSection(id)}>
-            <ButtonIcon color={`var(${id == activeSection ? "--theme-color-accent-contrast" : "--theme-color-foreground"})`} />
+        <button
+            class="nav-btn"
+            class:active={id == activeSection}
+            onclick={changeSection(id)}
+        >
+            <ButtonIcon
+                color={`var(${id == activeSection ? "--theme-color-accent-contrast" : "--theme-color-foreground"})`}
+            />
         </button>
     {/each}
 </div>
@@ -40,10 +45,9 @@
         margin-bottom: 0.5rem;
     }
 
-    
     .nav-btn {
-        width: 3rem;
-        height: 3rem;
+        width: 4rem;
+        height: 4rem;
         display: flex;
         align-items: center;
         justify-content: center;

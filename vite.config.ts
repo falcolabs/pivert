@@ -25,8 +25,7 @@ export default defineConfig(async () => ({
               }
             : undefined,
         watch: {
-            cwd: process.cwd(),
-            ignored: ["src-tauri/**", "server/**"],
+            ignored: ["**/src-tauri/**"],
         },
     },
 }));

@@ -1,8 +1,9 @@
 export * as requests from "./backend";
 import { writable, type Writable } from "svelte/store";
 import * as requests from "./backend";
-
 import { LazyStore } from "@tauri-apps/plugin-store";
+
+import type * as schema from "./schema";
 
 let _store: LazyStore;
 
@@ -34,11 +35,12 @@ export const loadStore = async () => {
 
 export type StoreType = {
     userID: string;
-    user: User;
+    user: schema.User;
     username: string;
     token: string;
-    habits: { [key: string]: Habit };
-    todos: { [key: string]: Todo };
+    habits: { [key: string]: schema.Habit };
+    todos: { [key: string]: schema.Todo };
+    achievementInfo: { [key: string]: schema.BadgeInfo };
 };
 type StoreKey = keyof StoreType;
 type StoreValueType<K extends keyof StoreType> = StoreType[K];
@@ -72,4 +74,19 @@ export async function logout() {
     requests.updateToken();
     loggedIn.set(false);
     console.log("logged out");
+}
+
+// https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript
+export function toRomanNumerals(num: number) {
+    if (isNaN(num))
+        return NaN;
+    var digits = String(+num).split(""),
+        key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+               "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+               "","I","II","III","IV","V","VI","VII","VIII","IX"],
+        roman = "",
+        i = 3;
+    while (i--)
+        roman = (key[+digits.pop()! + (i * 10)] || "") + roman;
+    return Array(+digits.join("") + 1).join("M") + roman;
 }

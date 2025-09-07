@@ -2,6 +2,7 @@
     import { ArrowLeft } from "@lucide/svelte";
     import PasswordInput from "../PasswordInput.svelte";
     import { requests } from "../../api";
+    import { monoco } from "@monokai/monoco-svelte";
 
     let { setIsSignup } = $props();
     let username: string = $state("");
@@ -62,12 +63,22 @@
                 <h3>Thông tin cá nhân</h3>
                 <div class="flex flex-row gap-3 w-full">
                     <input
+                        use:monoco={{
+                            borderRadius: 24,
+                            smoothing: 0.6,
+                            clip: true,
+                        }}
                         class="text-bold"
                         type="text"
                         placeholder="Họ"
                         bind:value={ho}
                     />
                     <input
+                        use:monoco={{
+                            borderRadius: 24,
+                            smoothing: 0.6,
+                            clip: true,
+                        }}
                         class="text-bold"
                         type="text"
                         placeholder="Tên đệm"
@@ -75,12 +86,22 @@
                     />
                 </div>
                 <input
+                    use:monoco={{
+                        borderRadius: 24,
+                        smoothing: 0.6,
+                        clip: true,
+                    }}
                     class="text-bold"
                     type="text"
                     placeholder="Tên"
                     bind:value={ten}
                 />
                 <input
+                    use:monoco={{
+                        borderRadius: 24,
+                        smoothing: 0.6,
+                        clip: true,
+                    }}
                     class="text-bold"
                     type="text"
                     placeholder="Số điện thoại"
@@ -90,6 +111,11 @@
                 <h3>Tài khoản</h3>
 
                 <input
+                    use:monoco={{
+                        borderRadius: 24,
+                        smoothing: 0.6,
+                        clip: true,
+                    }}
                     class="text-bold"
                     bind:value={username}
                     type="text"

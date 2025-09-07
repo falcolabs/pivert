@@ -10,7 +10,10 @@ from typing import (
     Optional,
     Generic,
     TypeVar,
-    Union, Mapping, Callable, Iterable,
+    Union,
+    Mapping,
+    Callable,
+    Iterable,
     Any,
 )
 
@@ -23,28 +26,34 @@ CategoryID: TypeAlias = str
 RelationshipLevel = Literal["none", "friends", "close"]
 T = TypeVar("T", bound=BaseModel)
 
+
 class UserMetrics(BaseModel):
     health: int
-    energy: int
+    cash: int
     xp: int
     allTimeXP: int
+
 
 class UserSocialLink(BaseModel):
     facebook: str
     threads: str
     tiktok: str
 
+
 class LevelingStatus(BaseModel):
     category: CategoryID
     progress: float
+
 
 class UserAchievements(BaseModel):
     badges: list[BadgeUUID]
     leveling: list[LevelingStatus]
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 class User(BaseModel):
     userID: UserUUID
@@ -63,38 +72,42 @@ class User(BaseModel):
     habits: list[HabitUUID]
     todos: list[TodoUUID]
 
+
 class AuthenticationEntry(BaseModel):
     userID: UserUUID
     hashedPassword: str
+
 
 class Relationship(BaseModel):
     target: UserUUID
     level: RelationshipLevel
 
+
 class TaskReward(BaseModel):
     health: int
-    energy: int
+    cash: int
     xp: int
+
 
 class Habit(BaseModel):
     taskID: HabitUUID
     name: str
+    icon: Optional[str]
     description: Optional[str]
-    congratsMessage: str
+    congratsMessage: Optional[str]
     rewards: TaskReward
+
 
 class Todo(BaseModel):
     taskID: TodoUUID
     name: str
+    icon: Optional[str]
     description: Optional[str]
     congratsMessage: Optional[str]
     rewards: TaskReward
     deadline: int
     completed: bool
 
-class ShortcutTasks(BaseModel):
-    habits: list[Habit]
-    todos: list[Todo]
 
 class LevelingCategoryInfo(BaseModel):
     catID: CategoryID
@@ -102,11 +115,13 @@ class LevelingCategoryInfo(BaseModel):
     allTimeXPRequired: list[int]
     maxLevel: int
 
+
 class BadgeInfo(BaseModel):
     badgeID: BadgeUUID
     name: str
     maxLevel: int
     coverArtURL: list[str]
+
 
 class QueryResultMultiple(tuple[T]):
     def __new__(cls, *args: T):
@@ -133,10 +148,11 @@ class QueryResultSingle(Generic[T]):
     def __bool__(self):
         if self.__inner__:
             return True
-        return False 
+        return False
 
     def __getattribute__(self, name: str) -> Any:
-        if name in ("__inner__", "is_empty", "__bool__"): return object.__getattribute__(self, name)
+        if name in ("__inner__", "is_empty", "__bool__"):
+            return object.__getattribute__(self, name)
         return getattr(self.__inner__, name)
 
     __nonzero__ = __bool__
@@ -151,9 +167,7 @@ class TypedTable(Generic[T], ABC):
     def insert(self, obj: T) -> int:
         return self.table.insert(obj.model_dump())  # type: ignore[reportArgumentType]
 
-    def query(
-        self, cond: tinydb.queries.QueryLike, n: int | None = None
-    ) -> tuple[T]:
+    def query(self, cond: tinydb.queries.QueryLike, n: int | None = None) -> tuple[T]:
         if n is None:
             return QueryResultMultiple(*[from_json(i) for i in self.table.search(cond)])  # type: ignore[reportReturnType]
         else:
@@ -161,12 +175,9 @@ class TypedTable(Generic[T], ABC):
 
     @property
     @abstractmethod
-    def model(self) -> type[T]:
-        ...
+    def model(self) -> type[T]: ...
 
-    def query_first(
-        self, cond: tinydb.queries.QueryLike
-    ) -> T:
+    def query_first(self, cond: tinydb.queries.QueryLike) -> T:
         result = self.table.search(cond)
         return QueryResultSingle(self.model.model_validate(result[0]) if len(result) >= 1 else None)  # type: ignore[reportReturnType]
 
@@ -184,20 +195,24 @@ class __AuthStore(TypedTable[AuthenticationEntry]):
     def model(self):
         return AuthenticationEntry
 
+
 class __UserStore(TypedTable[User]):
     @property
     def model(self):
         return User
+
 
 class __HabitsStore(TypedTable[Habit]):
     @property
     def model(self):
         return Habit
 
+
 class __TodosStore(TypedTable[Todo]):
     @property
     def model(self):
         return Todo
+
 
 class __RelationshipStore(TypedTable[Relationship]):
     @property

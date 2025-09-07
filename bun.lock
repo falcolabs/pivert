@@ -5,6 +5,7 @@
       "name": "pivert",
       "dependencies": {
         "@lucide/svelte": "^0.542.0",
+        "@monokai/monoco-svelte": "^0.2.2",
         "@tailwindcss/vite": "^4.1.13",
         "@tauri-apps/api": "^2.8.0",
         "@tauri-apps/plugin-http": "~2.5.2",
@@ -97,6 +98,10 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.30", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q=="],
 
     "@lucide/svelte": ["@lucide/svelte@0.542.0", "", { "peerDependencies": { "svelte": "^5" } }, "sha512-NuWttxTVfMSURpOxcKiKvoCtma3JtEpcJWzF/0cO69saZfXlv6G8NYAvEEGLmk75YPl+I+ROe+F97WhddM8r2A=="],
+
+    "@monokai/monoco": ["@monokai/monoco@0.2.2", "", {}, "sha512-hztFiU81zcWw4wa4JvjzWgUYRjCqwJjTYEsnnenwn/9hm8UWap2kXWYrInsQ6vNTgUzUdUIZh6/3+nHJ8zLYTw=="],
+
+    "@monokai/monoco-svelte": ["@monokai/monoco-svelte@0.2.2", "", { "dependencies": { "@monokai/monoco": "^0.2.2" }, "peerDependencies": { "svelte": "^5.0.0" } }, "sha512-IC600Ywf9o5DXWcjbJppRDjwx50CaYiJHGiQBmwcAt7uhIdUFIld9oISjLFgKJ2vDNTWpcDKixXTYoXz43n6iw=="],
 
     "@parcel/watcher": ["@parcel/watcher@2.5.1", "", { "dependencies": { "detect-libc": "^1.0.3", "is-glob": "^4.0.3", "micromatch": "^4.0.5", "node-addon-api": "^7.0.0" }, "optionalDependencies": { "@parcel/watcher-android-arm64": "2.5.1", "@parcel/watcher-darwin-arm64": "2.5.1", "@parcel/watcher-darwin-x64": "2.5.1", "@parcel/watcher-freebsd-x64": "2.5.1", "@parcel/watcher-linux-arm-glibc": "2.5.1", "@parcel/watcher-linux-arm-musl": "2.5.1", "@parcel/watcher-linux-arm64-glibc": "2.5.1", "@parcel/watcher-linux-arm64-musl": "2.5.1", "@parcel/watcher-linux-x64-glibc": "2.5.1", "@parcel/watcher-linux-x64-musl": "2.5.1", "@parcel/watcher-win32-arm64": "2.5.1", "@parcel/watcher-win32-ia32": "2.5.1", "@parcel/watcher-win32-x64": "2.5.1" } }, "sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg=="],
 

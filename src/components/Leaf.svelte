@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { children } = $props();
+    let { children } = $props();
 </script>
 
 <div class="leaf">
@@ -7,7 +7,3 @@
         {@render children()}
     {/if}
 </div>
-
-<style lang="scss">
-
-</style>

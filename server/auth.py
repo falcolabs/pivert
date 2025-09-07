@@ -9,11 +9,8 @@ import schema
 
 from typing import TypedDict
 
-JWTClaim = TypedDict("JWTClaim", {
-    "sub_id": str,
-    "sub": str,
-    "exp": int
-})
+JWTClaim = TypedDict("JWTClaim", {"sub_id": str, "sub": str, "exp": int})
+
 
 def new_uuid() -> str:
     return str(uuid.uuid4())
@@ -24,22 +21,28 @@ def register(username: str, password: str, displayname: str) -> bool:
         bcrypt.hashpw(password.encode(), bcrypt.gensalt(12))
     ).decode()
     uid = new_uuid()
-    db.AuthStore.insert(schema.AuthenticationEntry(userID=uid, hashedPassword=hashed_pw))
+    db.AuthStore.insert(
+        schema.AuthenticationEntry(userID=uid, hashedPassword=hashed_pw)
+    )
 
     db.UserStore.insert(
         schema.User(
             userID=uid,
             username=username,
             displayname=displayname,
+            avatarURL="/static/avatars/default.png",
             public=True,
             disabled=False,
-            achievements=schema.UserAchievements(badges=[], leveling=[]),
-            metrics=schema.UserMetrics(health=100, energy=0, exp=0),
+            achievements=schema.UserAchievements(
+                badges=[],
+                leveling=[schema.LevelingStatus(category="cancu", progress=0)],
+            ),
+            metrics=schema.UserMetrics(health=100, cash=0, xp=0, allTimeXP=0),
             social=schema.UserSocialLink(facebook="", threads="", tiktok=""),
             relationships=[],
             habits=[],
             todos=[],
-            creationTimestamp=round(time.time())
+            creationTimestamp=round(time.time()),
         )
     )
 
@@ -49,9 +52,7 @@ def register(username: str, password: str, displayname: str) -> bool:
 def login(username: str, password: str) -> tuple[bool, schema.User | None, str]:
     if result := db.UserStore.query_first(Query().username == username):
         if rp := db.AuthStore.query_first(Query().userID == result.userID):
-            if bcrypt.checkpw(
-                password.encode(), base64.b64decode(rp.hashedPassword)
-            ):
+            if bcrypt.checkpw(password.encode(), base64.b64decode(rp.hashedPassword)):
                 return True, result, "OK"
             return False, None, "Incorrect password"
         return False, None, "UNREACHABLE: User defined, but authentication info wasn't"
@@ -63,7 +64,7 @@ def generate_token(username: str, uid: str, private_key: str) -> str:
         {
             "sub_id": uid,
             "sub": username,
-            "exp": round(time.time()) + 60 * 60,
+            "exp": round(time.time()) + 60 * 60 * 24,
         },
         private_key,
         algorithm="RS256",
