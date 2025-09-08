@@ -64,7 +64,7 @@
                 <div class="flex flex-row gap-3 w-full">
                     <input
                         use:monoco={{
-                            borderRadius: 24,
+                            borderRadius: 18,
                             smoothing: 0.6,
                             clip: true,
                         }}
@@ -75,7 +75,7 @@
                     />
                     <input
                         use:monoco={{
-                            borderRadius: 24,
+                            borderRadius: 18,
                             smoothing: 0.6,
                             clip: true,
                         }}
@@ -87,7 +87,7 @@
                 </div>
                 <input
                     use:monoco={{
-                        borderRadius: 24,
+                        borderRadius: 18,
                         smoothing: 0.6,
                         clip: true,
                     }}
@@ -98,7 +98,7 @@
                 />
                 <input
                     use:monoco={{
-                        borderRadius: 24,
+                        borderRadius: 18,
                         smoothing: 0.6,
                         clip: true,
                     }}
@@ -112,7 +112,7 @@
 
                 <input
                     use:monoco={{
-                        borderRadius: 24,
+                        borderRadius: 18,
                         smoothing: 0.6,
                         clip: true,
                     }}

@@ -31,7 +31,7 @@
             >
                 <input
                     use:monoco={{
-                        borderRadius: 24,
+                        borderRadius: 18,
                         smoothing: 0.6,
                         clip: true,
                     }}
@@ -46,7 +46,7 @@
                 <a href="/">Quên mật khẩu?</a>
                 <input
                     use:monoco={{
-                        borderRadius: 24,
+                        borderRadius: 18,
                         smoothing: 0.6,
                         clip: true,
                     }}
