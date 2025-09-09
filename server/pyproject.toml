@@ -1,5 +1,5 @@
 [project]
-name = "pivert-server"
+name = "nest"
 version = "0.0.1-beta"
 dependencies = [
     "bcrypt>=4.3.0",
