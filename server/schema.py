@@ -23,6 +23,7 @@ HabitUUID: TypeAlias = str
 TodoUUID: TypeAlias = str
 BadgeUUID: TypeAlias = str
 CategoryID: TypeAlias = str
+RewardUUID: TypeAlias = str
 RelationshipLevel = Literal["none", "friends", "close"]
 T = TypeVar("T", bound=BaseModel)
 
@@ -71,6 +72,8 @@ class User(BaseModel):
     relationships: list[RelationshipUUID]
     habits: list[HabitUUID]
     todos: list[TodoUUID]
+    userRewards: list[RewardUUID]
+    systemRewards: list[RewardUUID]
 
 
 class AuthenticationEntry(BaseModel):
@@ -107,6 +110,17 @@ class Todo(BaseModel):
     rewards: TaskReward
     deadline: int
     completed: bool
+
+
+class Reward(BaseModel):
+    rewardID: RewardUUID
+    name: str
+    icon: Optional[str]
+    description: Optional[str]
+    congratsMessage: Optional[str]
+    cost: TaskReward
+    timesClaimed: int
+    maxClaims: Optional[int]
 
 
 class LevelingCategoryInfo(BaseModel):
@@ -214,7 +228,13 @@ class __TodosStore(TypedTable[Todo]):
         return Todo
 
 
-class __RelationshipStore(TypedTable[Relationship]):
+class __RelationshipsStore(TypedTable[Relationship]):
     @property
     def model(self):
         return Relationship
+
+
+class __RewardsStore(TypedTable[Reward]):
+    @property
+    def model(self):
+        return Reward

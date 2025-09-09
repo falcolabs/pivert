@@ -7,6 +7,9 @@
     import Login from "../components/sections/Login.svelte";
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
+    import Train from "../components/sections/Train.svelte";
+    import Settings from "../components/sections/Settings.svelte";
+    import Rewards from "../components/sections/Rewards.svelte";
 
     const TEST_LOGIN = false;
     onMount(async () => {
@@ -16,8 +19,8 @@
         }
     });
 
-    let activeSection = $state("home");
-    const SECTIONS_INDEX: { [key: string]: number } = {
+    let activeSection: keyof typeof SECTIONS_INDEX = $state("home");
+    const SECTIONS_INDEX = {
         home: 0,
         social: 1,
         train: 2,
@@ -26,7 +29,7 @@
     };
     let section_list: number[] = $state([0]);
 
-    const swipeTo = (id: string) => {
+    const swipeTo = (id: keyof typeof SECTIONS_INDEX) => {
         if (id == activeSection) return;
         let destination = SECTIONS_INDEX[id];
         let current = SECTIONS_INDEX[activeSection];
@@ -48,10 +51,16 @@
 </script>
 
 {#snippet section(sid: number)}
-    {#if sid == SECTIONS_INDEX["home"]}
-        <Home />
-    {:else if sid == SECTIONS_INDEX["social"]}
+    {#if sid == SECTIONS_INDEX.home}
+        <Home changeSection={swipeTo} />
+    {:else if sid == SECTIONS_INDEX.social}
         <Social />
+    {:else if sid == SECTIONS_INDEX.train}
+        <Train />
+    {:else if sid == SECTIONS_INDEX.rewards}
+        <Rewards />
+    {:else if sid == SECTIONS_INDEX.settings}
+        <Settings />
     {/if}
 {/snippet}
 

@@ -1,14 +1,19 @@
 <script lang="ts">
     import Leaf from "../Leaf.svelte";
+    import Load from "../Load.svelte";
 </script>
 
-<div>
-    <Leaf>
-        <h1>This is the Train</h1>
-        <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains</p>
-        <br>
-        <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains</p>
-        <h6>sub</h6>
-        <a href="https://example.com">doolers</a>
-    </Leaf>
-</div>
+<Leaf>
+    <div class="flex flex-col w-full dodge-topbar px-8 gap-4">
+        <Load until={true}>
+            <h1 class="text-center px-15">
+                Tính năng này chưa hoàn thiện trong bản MVP.
+            </h1>
+            <p>
+                Chỉ có mockup cho tính năng này.
+                <br />
+                Đội thi đã vote để loại bỏ tính năng này ra khỏi ứng dụng MVP.
+            </p>
+        </Load>
+    </div>
+</Leaf>

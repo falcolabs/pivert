@@ -15,8 +15,11 @@ if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
     fetch = (await import("@tauri-apps/plugin-http")).fetch;
 } else {
     fetch = window.fetch;
-    // @ts-expect-error
-    Object.defineProperty(window, "__TAURI_INTERNALS__", { invoke: console.log });
+    // fake @tauri-apps/plugin-http
+    Object.defineProperty(window, "__TAURI_INTERNALS__", {
+        // @ts-expect-error
+        invoke: console.log,
+    });
 }
 
 export const reqURL = (
@@ -167,6 +170,10 @@ export const complete = {
 export const shortcut = {
     tasks: async (): Promise<schema.shortcuts.ShortcutTasks> =>
         fetchJSON(reqURL("/api/v1/shortcuts/tasks")),
+    train: async (): Promise<schema.shortcuts.ShortcutTrain> =>
+        fetchJSON(reqURL("/api/v1/shortcuts/train")),
+    rewards: async (): Promise<schema.shortcuts.ShortcutRewards> =>
+        fetchJSON(reqURL("/api/v1/shortcuts/rewards")),
     achievementInfo:
         async (): Promise<schema.shortcuts.ShortcutAchievementsInfo> =>
             fetchJSON(reqURL("/api/v1/shortcuts/achievement_info")),

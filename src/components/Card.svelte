@@ -9,13 +9,17 @@
         title,
         icon,
         iconAlign = "left",
+        onclick = () => {},
+        class: className = "",
     }: {
         children: any;
-        bg: string;
-        fg: string;
+        bg?: string;
+        fg?: string;
         title: string;
         icon: Component;
-        iconAlign: "left" | "right";
+        iconAlign?: "left" | "right";
+        onclick?: () => void;
+        class?: string;
     } = $props();
 </script>
 
@@ -30,10 +34,11 @@
         }}
     >
         <div
-            class="flex flex-col py-5 px-6 gap-2 h-full"
+            class={"flex flex-col py-5 px-6 gap-2 h-full" + className}
             style={`background-color: var(--theme-color-${bg}); color: var(--theme-color-${fg});`}
         >
-            <div
+            <button
+                {onclick}
                 class="flex flex-row items-center gap-4"
                 class:reversed-orientation={iconAlign == "right"}
             >
@@ -44,7 +49,7 @@
                     />
                 </div>
                 <h2>{title}</h2>
-            </div>
+            </button>
             <div>{@render children()}</div>
         </div>
     </div>
@@ -54,9 +59,5 @@
     .reversed-orientation {
         flex-direction: row-reverse;
         justify-content: space-between;
-    }
-
-    .darken-border {
-        border: solid 1px rgba(0, 0, 0, 0.2);
     }
 </style>

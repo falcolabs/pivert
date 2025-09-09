@@ -16,6 +16,8 @@
     import MetricsDisplay from "../MetricsDisplay.svelte";
     import Card from "../Card.svelte";
 
+    let { changeSection } = $props();
+
     const getCurrentLevel = (cxp: number, glist: number[]) => {
         let i = 0;
         for (let g of glist) {
@@ -91,7 +93,7 @@
                 <a href="/">Tìm hiểu thêm về chỉ số Bền bỉ</a>
             </Card>
             <div class="flex flex-row gap-4">
-                <div class="w-40 h-39 relative">
+                <div class="w-auto h-full relative">
                     <div class="abs-center absolute z-100">
                         <p class="w-26 text-center text-bold text-blue">
                             {home.achievementInfo.badgeInfo[
@@ -101,7 +103,6 @@
                         </p>
                     </div>
                     <img
-                        class="h-auto w-40 rounded-4xl"
                         use:monoco={{
                             borderRadius: 24,
                             smoothing: 0.6,
@@ -123,9 +124,12 @@
                     title="Luyện tập"
                     icon={Dumbbell}
                     iconAlign="right"
+                    onclick={() => {
+                        changeSection("train");
+                    }}
                 >
                     <!-- TODO: self host the icons if possible -->
-                    <div class="flex flex-row gap-4">
+                    <button class="flex flex-row gap-4">
                         <!-- <div class="flex flex-wrap flex-row gap-1">
                             {#each Object.values(tasks.habits) as h}
                                 <button
@@ -141,7 +145,7 @@
                         <span class="text-center"
                             >Bấm vào đây để đến nhanh.</span
                         >
-                    </div>
+                    </button>
                 </Card>
             </div>
             <Card
@@ -166,11 +170,11 @@
                     .toString()}
                 alt="User badge"
             />
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
     </Load>
 </Leaf>
