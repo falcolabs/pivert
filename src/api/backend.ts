@@ -1,4 +1,3 @@
-import { fetch } from "@tauri-apps/plugin-http";
 import { logout } from "./index";
 import type * as schema from "./schema";
 export let token: string = "";
@@ -7,6 +6,18 @@ export const updateToken = () => {
     token = window.localStorage.getItem("token")!;
 };
 updateToken();
+
+let fetch: (
+    input: URL | Request | string,
+    init?: RequestInit & import("@tauri-apps/plugin-http").ClientOptions,
+) => Promise<Response>;
+if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
+    fetch = (await import("@tauri-apps/plugin-http")).fetch;
+} else {
+    fetch = window.fetch;
+    // @ts-expect-error
+    Object.defineProperty(window, "__TAURI_INTERNALS__", { invoke: console.log });
+}
 
 export const reqURL = (
     path: string,
@@ -156,8 +167,9 @@ export const complete = {
 export const shortcut = {
     tasks: async (): Promise<schema.shortcuts.ShortcutTasks> =>
         fetchJSON(reqURL("/api/v1/shortcuts/tasks")),
-    achievementInfo: async (): Promise<schema.shortcuts.ShortcutAchievementsInfo> =>
-        fetchJSON(reqURL("/api/v1/shortcuts/achievement_info")),
+    achievementInfo:
+        async (): Promise<schema.shortcuts.ShortcutAchievementsInfo> =>
+            fetchJSON(reqURL("/api/v1/shortcuts/achievement_info")),
     home: async (): Promise<schema.shortcuts.ShortcutHome> =>
         fetchJSON(reqURL("/api/v1/shortcuts/home")),
 };
