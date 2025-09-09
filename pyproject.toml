@@ -7,5 +7,6 @@ dependencies = [
     "bcrypt",
     "tinydb",
     "pyjwt",
-    "cryptography"
+    "cryptography",
+    "numpy"
 ]
