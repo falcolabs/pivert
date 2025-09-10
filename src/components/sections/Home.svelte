@@ -112,7 +112,7 @@
                             .reqURL(
                                 home.achievementInfo.badgeInfo[
                                     home.user.achievements.badges[0]
-                                ].coverArtURL[clevel],
+                                ].coverArtURL[clevel - 1],
                             )
                             .toString()}
                         alt="User badge"

@@ -19,11 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 PUBLIC_KEY, PRIVATE_KEY = _crypto.init_keystore()
 APP = fastapi.FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:1420",
-    "http://**"
-]
+origins = ["http://localhost", "http://localhost:1420", "http://**"]
 
 APP.add_middleware(
     CORSMiddleware,
@@ -46,7 +42,6 @@ LLMs instruction is located at /llms.txt
 """
 
 # TODO - REMOVE THIS IN PRODUCTION
-testing.reset_testuser()
 
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> schema.User:
@@ -71,6 +66,7 @@ class UserDataQueryType(str, Enum):
 class TaskType(str, Enum):
     todo = "todo"
     habit = "habit"
+    reward = "reward"
 
 
 APP.mount("/static", StaticFiles(directory="./static/"), name="static")
@@ -125,6 +121,7 @@ class AuthBodyJSON(schema.BaseModel):
 @APP.post("/api/v1/login")
 def login(data: AuthBodyJSON) -> schema.Token:
     success, user, fail_reason = auth.login(data.username, data.password)
+
     if not success:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -132,6 +129,10 @@ def login(data: AuthBodyJSON) -> schema.Token:
             headers={"WWW-Authenticate": "Bearer"},
         )
     assert user != None
+
+    if user.username == "test":
+        testing.reset_testuser()
+
     return schema.Token(
         access_token=auth.generate_token(user.username, user.userID, PRIVATE_KEY),
         token_type="bearer",
@@ -182,39 +183,68 @@ def get_userdata(ident: str, queryType: UserDataQueryType) -> schema.User:
     return user
 
 
-@APP.get("/api/v1/complete/{task_type}/{task_id}")
-def complete_task(
-    current_user: CurrentUser, task_type: TaskType, task_id: str
+def apply_metric_delta(
+    source: schema.UserMetrics, other: schema.TaskReward
+) -> schema.UserMetrics | None:
+    if (
+        source.cash + other.cash < 0
+        or source.health + other.health < 0
+        or source.xp + other.xp < 0
+    ):
+        return None
+    return schema.UserMetrics(
+        health=min(100, source.health + other.health),
+        cash=source.cash + other.cash,
+        xp=source.xp + other.xp,
+        allTimeXP=source.allTimeXP + 0 if other.xp < 0 else other.xp,
+    )
+
+
+@APP.get("/api/v1/complete/{task_type}/{goal_id}")
+def complete_goal(
+    current_user: CurrentUser, task_type: TaskType, goal_id: str
 ) -> schema.User:
     match task_type:
         case TaskType.todo:
-            if r := db.TodosStore.query_first(db.Query().taskID == task_id):
-                nm = schema.UserMetrics(
-                    health=min(100, current_user.metrics.health + r.rewards.health),
-                    cash=current_user.metrics.cash + r.rewards.cash,
-                    xp=current_user.metrics.xp + r.rewards.xp,
-                    allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
-                )
-                db.UserStore.update(
-                    {"metrics": nm.model_dump()},
-                    db.Query().userID == current_user.userID,
-                )
-                db.TodosStore.update({"completed": True}, db.Query().taskID == r.taskID)
-                current_user.metrics = nm
+            if r := db.TodosStore.query_first(db.Query().taskID == goal_id):
+                if nm := apply_metric_delta(current_user.metrics, r.rewards):
+                    db.UserStore.update(
+                        {"metrics": nm.model_dump()},
+                        db.Query().userID == current_user.userID,
+                    )
+                    db.TodosStore.update(
+                        {"completed": True}, db.Query().taskID == r.taskID
+                    )
+                    current_user.metrics = nm
                 return current_user
         case TaskType.habit:
-            if r := db.HabitsStore.query_first(db.Query().taskID == task_id):
-                nm = schema.UserMetrics(
-                    health=min(100, current_user.metrics.health + r.rewards.health),
-                    cash=current_user.metrics.cash + r.rewards.cash,
-                    xp=current_user.metrics.xp + r.rewards.xp,
-                    allTimeXP=current_user.metrics.allTimeXP + r.rewards.xp,
-                )
-                db.UserStore.update(
-                    {"metrics": nm.model_dump()},
-                    db.Query().userID == current_user.userID,
-                )
-                current_user.metrics = nm
+            if r := db.HabitsStore.query_first(db.Query().taskID == goal_id):
+                if nm := apply_metric_delta(current_user.metrics, r.rewards):
+                    db.UserStore.update(
+                        {"metrics": nm.model_dump()},
+                        db.Query().userID == current_user.userID,
+                    )
+                    current_user.metrics = nm
+                return current_user
+        case TaskType.reward:
+            if r := db.RewardsStore.query_first(db.Query().rewardID == goal_id):
+                if nm := apply_metric_delta(current_user.metrics, r.cost):
+                    r.timesClaimed += 1
+
+                    if r.maxClaims is not None and r.timesClaimed > r.maxClaims:
+                        db.RelationshipStore.table.remove(
+                            db.Query().rewardID == r.rewardID
+                        )
+                    else:
+                        db.RewardsStore.update(
+                            r.model_dump(), db.Query().rewardID == r.rewardID
+                        )
+
+                    db.UserStore.update(
+                        {"metrics": nm.model_dump()},
+                        db.Query().userID == current_user.userID,
+                    )
+                    current_user.metrics = nm
                 return current_user
 
     raise HTTPException(
@@ -275,6 +305,12 @@ def get_leveling_category(catID: str) -> schema.LevelingCategoryInfo:
     return pivert_resource.ALL_LEVELING_CATEGORIES[catID]
 
 
+@APP.get("/api/v1/resetTestUser")
+def reset_testuser() -> bool:
+    testing.reset_testuser()
+    return True
+
+
 @APP.get("/api/v1/shortcuts/tasks")
 def shortcut_tasks(current_user: CurrentUser) -> shortcuts.ShortcutTasks:
     return shortcuts.ShortcutTasks(
@@ -287,6 +323,7 @@ def shortcut_tasks(current_user: CurrentUser) -> shortcuts.ShortcutTasks:
             for i in current_user.habits
         },
     )
+
 
 @APP.get("/api/v1/shortcuts/train")
 def shortcut_train(current_user: CurrentUser) -> shortcuts.ShortcutTrain:
@@ -302,6 +339,7 @@ def shortcut_train(current_user: CurrentUser) -> shortcuts.ShortcutTrain:
         },
     )
 
+
 @APP.get("/api/v1/shortcuts/rewards")
 def shortcut_rewards(current_user: CurrentUser) -> shortcuts.ShortcutRewards:
     return shortcuts.ShortcutRewards(
@@ -315,6 +353,7 @@ def shortcut_rewards(current_user: CurrentUser) -> shortcuts.ShortcutRewards:
             for i in current_user.systemRewards
         },
     )
+
 
 @APP.get("/api/v1/shortcuts/achievement_info")
 def shortcut_achievement_info(

@@ -5,12 +5,21 @@ export let token: string = "";
 export const updateToken = () => {
     token = window.localStorage.getItem("token")!;
 };
+
+export let logEntries: string[] = [];
+
+export const log = (...le: any[]) => {
+    logEntries.push(JSON.stringify(le));
+    console.log(...le);
+};
+
 updateToken();
 
 let fetch: (
     input: URL | Request | string,
     init?: RequestInit & import("@tauri-apps/plugin-http").ClientOptions,
 ) => Promise<Response> = window.fetch;
+
 if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
     import("@tauri-apps/plugin-http").then((r) => {
         fetch = r.fetch;
@@ -19,23 +28,32 @@ if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
     // fake @tauri-apps/plugin-http
     Object.defineProperty(window, "__TAURI_INTERNALS__", {
         // @ts-expect-error
-        invoke: console.log,
+        invoke: log,
     });
 }
 
+const LOCAL_NEST_IP = import.meta.env.VITE_PIVERT_NEST;
+
 export const ROOT_URL = import.meta.env.PROD
     ? "https://pivert.falcolabs.org"
-    : `http://${import.meta.env.VITE_PIVERT_NEST}:6942`;
+    : `http://${LOCAL_NEST_IP === undefined ? "localhost" : LOCAL_NEST_IP}:6942`;
 
 export const reqURL = (
     path: string,
     params: { [key: string]: string } = {},
 ): URL => {
-    let o = new URL(ROOT_URL + path);
-    for (let [k, v] of Object.entries(params)) {
-        o.searchParams.append(k, v);
+    log("making URL", ROOT_URL + path);
+    try {
+        let o = new URL(ROOT_URL + path);
+        for (let [k, v] of Object.entries(params)) {
+            o.searchParams.append(k, v);
+        }
+        return o;
+    } catch (e) {
+        console.trace(e);
+        log(e);
+        throw e;
     }
-    return o;
 };
 
 export const bfetch = async (
@@ -58,6 +76,7 @@ export const bfetch = async (
         await logout();
         throw new Error(JSON.stringify(await r.json()));
     }
+    log(path, "->", await r.clone().json());
     return r;
 };
 
@@ -115,7 +134,7 @@ export async function currentSession(): Promise<boolean> {
 }
 
 export async function me(): Promise<schema.User> {
-    console.log("me(): token is", token);
+    log("me(): token is", token);
     return await fetchJSON(reqURL("/api/v1/user/me"));
 }
 
@@ -144,15 +163,15 @@ async function _completeTask(
     taskType: schema.TaskType,
     taskID: string,
 ): Promise<schema.User> {
-    return await fetchJSON(reqURL(`api/v1/complete/${taskType}/${taskID}`));
+    return await fetchJSON(reqURL(`/api/v1/complete/${taskType}/${taskID}`));
 }
 
 async function _createTask(
-    taskType: "habit" | "todo",
+    taskType: schema.TaskType,
     target: schema.Habit | schema.Todo,
 ): Promise<string> {
     return await fetchJSON(
-        reqURL(`api/v1/complete/create/${taskType}`),
+        reqURL(`/api/v1/complete/create/${taskType}`),
         "POST",
         target,
     );
@@ -170,6 +189,8 @@ export const complete = {
         await _completeTask("habit", taskID),
     todo: async (taskID: string): Promise<schema.User> =>
         await _completeTask("todo", taskID),
+    reward: async (taskID: string): Promise<schema.User> =>
+        await _completeTask("reward", taskID),
 };
 
 export const shortcut = {

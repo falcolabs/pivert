@@ -125,7 +125,7 @@ def reset_testuser():
 
     fake_rewards_system = [
         schema.Reward(
-            rewardID="00000000-0000-0000-0000-000000000000",
+            rewardID="00000000-0000-0000-0000-000000000004",
             name="Voucher Free Fire",
             icon="gamepad-2",
             description=None,
@@ -135,7 +135,7 @@ def reset_testuser():
             timesClaimed=0,
         ),
         schema.Reward(
-            rewardID="00000000-0000-0000-0000-000000000001",
+            rewardID="00000000-0000-0000-0000-000000000005",
             name="Ủng hộ từ thiện 20k",
             icon="gift",
             description=None,
@@ -145,7 +145,7 @@ def reset_testuser():
             timesClaimed=0,
         ),
         schema.Reward(
-            rewardID="00000000-0000-0000-0000-000000000002",
+            rewardID="00000000-0000-0000-0000-000000000006",
             name="Nạp 200k vào FB88",
             icon="banknote-x",
             description=None,
@@ -155,12 +155,12 @@ def reset_testuser():
             timesClaimed=0,
         ),
         schema.Reward(
-            rewardID="00000000-0000-0000-0000-000000000003",
+            rewardID="00000000-0000-0000-0000-000000000007",
             name="Người yêu",
-            icon="bed-double",
+            icon="accessibility",
             description=None,
             congratsMessage=None,
-            cost=schema.TaskReward(health=999, cash=999, xp=0),
+            cost=schema.TaskReward(health=-99, cash=-99, xp=0),
             maxClaims=-1,
             timesClaimed=0,
         ),

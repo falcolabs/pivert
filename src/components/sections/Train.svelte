@@ -60,11 +60,10 @@
         },
     ];
 
-    requests.shortcut.train().then((r) => {
-        train = r;
+    onMount(async () => {
+        console.log("loading train");
+        train = await requests.shortcut.train();
     });
-
-    onMount(async () => {});
 </script>
 
 <Leaf>
@@ -122,7 +121,9 @@
                                 clip: true,
                             }}
                             onclick={async () => {
-                                await requests.complete.habit(task.taskID);
+                                train.user = await requests.complete.habit(
+                                    task.taskID,
+                                );
                             }}
                         >
                             <div
@@ -158,7 +159,9 @@
                                 clip: true,
                             }}
                             onclick={async () => {
-                                await requests.complete.todo(task.taskID);
+                                train.user = await requests.complete.todo(
+                                    task.taskID,
+                                );
                             }}
                         >
                             <div

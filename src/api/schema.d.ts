@@ -8,7 +8,7 @@ export type BadgeUUID = string;
 export type CategoryID = string;
 export type RewardUUID = string;
 export type RelationshipLevel = "none" | "friends" | "close";
-export type TaskType = "habit" | "todo";
+export type TaskType = "habit" | "todo" | "reward";
 export type UserDataQueryType = "uuid" | "username";
 
 export type UserMetrics = {

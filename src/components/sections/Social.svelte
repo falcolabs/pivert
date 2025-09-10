@@ -10,9 +10,9 @@
                 Tính năng này chưa hoàn thiện trong bản MVP.
             </h1>
             <p>
-                Chỉ có mockup cho tính năng này.
+                Chỉ có mock up cho tính năng này.
                 <br />
-                Đội thi đã vote để loại bỏ tính năng này ra khỏi ứng dụng MVP.
+                Đội thi không demo tính năng này trong MVP.
             </p>
         </Load>
     </div>

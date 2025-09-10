@@ -10,6 +10,7 @@
     import Train from "../components/sections/Train.svelte";
     import Settings from "../components/sections/Settings.svelte";
     import Rewards from "../components/sections/Rewards.svelte";
+    import Load from "../components/Load.svelte";
 
     const TEST_LOGIN = false;
     onMount(async () => {
@@ -88,7 +89,9 @@
             </div>
         {/if}
         {#snippet pending()}
-            Loading...
+            <Load until={false}>
+                <br />
+            </Load>
         {/snippet}
     </svelte:boundary>
 </main>
