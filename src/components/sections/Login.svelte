@@ -30,11 +30,6 @@
                 }}
             >
                 <input
-                    use:monoco={{
-                        borderRadius: 18,
-                        smoothing: 0.6,
-                        clip: true,
-                    }}
                     class="text-bold"
                     bind:value={username}
                     id="username"

@@ -7,13 +7,12 @@
 
 <div class="icons">
     <button
-        id="password-visible-icon"
         aria-label="Hiện mật khẩu"
         onclick={() => {
             passwordVisible = !passwordVisible;
         }}
     >
-        <div id="icon-obj">
+        <div class="icon-obj">
             {#if passwordVisible}
                 <Eye color="#A8AAB8" />
             {:else}
@@ -24,7 +23,6 @@
     <input
         class="text-bold"
         bind:value
-        id="password"
         name="password"
         type={passwordVisible ? "text" : "password"}
         {placeholder}
@@ -39,7 +37,7 @@
         align-items: end;
         justify-content: center;
 
-        #icon-obj {
+        .icon-obj {
             position: relative;
             padding-right: 1.5rem;
             margin-top: -1.5rem;

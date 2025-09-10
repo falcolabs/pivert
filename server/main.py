@@ -2,6 +2,7 @@ import fastapi
 import auth
 import _crypto
 import db
+import testing
 import schema
 import shortcuts
 import pivert_resource
@@ -12,10 +13,26 @@ from fastapi import Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 PUBLIC_KEY, PRIVATE_KEY = _crypto.init_keystore()
 APP = fastapi.FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:1420",
+]
+
+APP.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 PIVERT_HOMEPAGE = """Welcome to FTUGate!
 
 Project Pivert Server API Endpoint
@@ -28,7 +45,7 @@ LLMs instruction is located at /llms.txt
 """
 
 # TODO - REMOVE THIS IN PRODUCTION
-db.reset_testuser()
+testing.reset_testuser()
 
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> schema.User:
@@ -270,6 +287,33 @@ def shortcut_tasks(current_user: CurrentUser) -> shortcuts.ShortcutTasks:
         },
     )
 
+@APP.get("/api/v1/shortcuts/train")
+def shortcut_train(current_user: CurrentUser) -> shortcuts.ShortcutTrain:
+    return shortcuts.ShortcutTrain(
+        user=current_user,
+        todos={
+            i: db.TodosStore.query_first(db.Query().taskID == i)
+            for i in current_user.todos
+        },
+        habits={
+            i: db.HabitsStore.query_first(db.Query().taskID == i)
+            for i in current_user.habits
+        },
+    )
+
+@APP.get("/api/v1/shortcuts/rewards")
+def shortcut_rewards(current_user: CurrentUser) -> shortcuts.ShortcutRewards:
+    return shortcuts.ShortcutRewards(
+        user=current_user,
+        userRewards={
+            i: db.RewardsStore.query_first(db.Query().rewardID == i)
+            for i in current_user.userRewards
+        },
+        systemRewards={
+            i: db.RewardsStore.query_first(db.Query().rewardID == i)
+            for i in current_user.systemRewards
+        },
+    )
 
 @APP.get("/api/v1/shortcuts/achievement_info")
 def shortcut_achievement_info(

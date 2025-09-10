@@ -6,6 +6,7 @@ export type HabitUUID = string;
 export type TodoUUID = string;
 export type BadgeUUID = string;
 export type CategoryID = string;
+export type RewardUUID = string;
 export type RelationshipLevel = "none" | "friends" | "close";
 export type TaskType = "habit" | "todo";
 export type UserDataQueryType = "uuid" | "username";
@@ -54,6 +55,9 @@ export type User = {
     relationships: RelationshipUUID[];
     habits: HabitUUID[];
     todos: TodoUUID[];
+
+    userRewards: RewardUUID[];
+    systemRewards: RewardUUID[];
 };
 
 export type AuthenticationEntry = {
@@ -103,4 +107,15 @@ export type BadgeInfo = {
     name: string;
     maxLevel: number;
     coverArtURL: string[];
+};
+
+export type Reward = {
+    rewardID: RewardUUID;
+    name: string;
+    icon?: string;
+    description?: string;
+    congratsMessage?: string;
+    cost: TaskReward;
+    timesClaimed: number;
+    maxClaims?: number;
 };
