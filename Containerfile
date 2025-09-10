@@ -18,4 +18,4 @@ FROM python:3-alpine
 ENV PATH="/app/.venv/bin:$PATH"
 COPY --from=builder --chown=app:app /app /app
 
-CMD ["uvicorn", "/app/main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD uvicorn /app/main:app --host 0.0.0.0 --port $PORT
