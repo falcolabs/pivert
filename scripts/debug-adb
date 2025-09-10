@@ -1,0 +1,9 @@
+#!/bin/env sh
+
+source scripts/setandroidstudio
+export VITE_PIVERT_NEST="$(hostname -I | scripts/trim)"
+
+cd server && fastapi dev main.py --host $VITE_PIVERT_NEST --port 6942 &
+bun tauri android dev &
+wait
+echo "Debug session terminated."

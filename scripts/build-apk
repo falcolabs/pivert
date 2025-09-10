@@ -1,0 +1,6 @@
+#!/bin/env sh
+source ./scripts/setandroidstudio
+# cp keystore.properties src-tauri/gen/android/keystore.properties
+bun tauri android build --apk -t aarch64 --split-per-abi
+cp src-tauri/gen/android/app/build/outputs/apk/arm64/release/app-arm64-release-unsigned.apk ./pivert-alpha-arm64.apk
+$ANDROID_HOME/build-tools/35.0.1/apksigner sign --ks falcolabs-pivert.jks --ks-key-alias pivert --out pivert-alpha-arm64.apk src-tauri/gen/android/app/build/outputs/apk/arm64/release/app-arm64-release-unsigned.apk

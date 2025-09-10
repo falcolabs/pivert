@@ -10,11 +10,12 @@ updateToken();
 let fetch: (
     input: URL | Request | string,
     init?: RequestInit & import("@tauri-apps/plugin-http").ClientOptions,
-) => Promise<Response>;
+) => Promise<Response> = window.fetch;
 if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
-    fetch = (await import("@tauri-apps/plugin-http")).fetch;
+    import("@tauri-apps/plugin-http").then((r) => {
+        fetch = r.fetch;
+    });
 } else {
-    fetch = window.fetch;
     // fake @tauri-apps/plugin-http
     Object.defineProperty(window, "__TAURI_INTERNALS__", {
         // @ts-expect-error
@@ -22,11 +23,15 @@ if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
     });
 }
 
+export const ROOT_URL = import.meta.env.PROD
+    ? "https://pivert.falcolabs.org"
+    : `http://${import.meta.env.VITE_PIVERT_NEST}:6942`;
+
 export const reqURL = (
     path: string,
     params: { [key: string]: string } = {},
 ): URL => {
-    let o = new URL("http://localhost:6942" + path);
+    let o = new URL(ROOT_URL + path);
     for (let [k, v] of Object.entries(params)) {
         o.searchParams.append(k, v);
     }

@@ -231,3 +231,7 @@ __marimo__/
 app.db
 db.json
 store.json
+falcolabs-pivert.jks
+pivert-alpha-arm64.apk
+keystore.properties
+pivert-alpha-arm64.apk.idsig

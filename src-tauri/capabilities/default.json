@@ -1,28 +1,41 @@
 {
-  "$schema": "../gen/schemas/desktop-schema.json",
-  "identifier": "default",
-  "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
-  "permissions": [
-    "core:default",
-    "opener:default",
-    {
-      "identifier": "http:default",
-      "allow": [
+    "$schema": "../gen/schemas/desktop-schema.json",
+    "identifier": "default",
+    "description": "Capability for the main window",
+    "windows": ["main"],
+    "permissions": [
+        "core:default",
+        "opener:default",
         {
-          "url": "http://localhost:1420"
-        },
-        {
-          "url": "https://pivert.falcolabs.org"
-        },
+            "identifier": "http:default",
+            "allow": [
                 {
-          "url": "http://localhost:6942"
-        }
-      ],
-      "deny": []
-    },
-    "store:default"
-  ]
+                    "url": "https://**/"
+                },
+                {
+                    "url": "http://**/"
+                },
+                {
+                    "url": "https://**:6942/"
+                },
+                {
+                    "url": "http://**:6942/"
+                },
+                {
+                    "url": "http://192.168.0.183:6942/"
+                },
+                {
+                    "url": "https://pivert.falcolabs.org/"
+                },
+                {
+                    "url": "http://localhost:6942/"
+                },
+                {
+                    "url": "http://localhost:1420/"
+                }
+            ],
+            "deny": []
+        },
+        "store:default"
+    ]
 }

@@ -103,7 +103,7 @@
                                 </div>
                                 <div
                                     class="flex items-center justify-center rounded-full w-full h-12"
-                                    class:bg-accent-border={weekday.dateNumber ==
+                                    class:bg-accent={weekday.dateNumber ==
                                         TODAY_DATE_IN_MONTH}
                                 >
                                     {weekday.dateNumber}
