@@ -27,7 +27,7 @@ jobs:
             - name: Deploy to Cloud Run
               run: |
                   gcloud run deploy pivert-nest  \
-                    --image "ghcr.io/falcolabs/pivert/nest:main" \
+                    --image "asia-east2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID  }}/ghcr/falcolabs/pivert-nest:main" \
                     --platform managed \
                     --region ${{ secrets.GCP_LOCATION }} \
                     --port 8080 \
