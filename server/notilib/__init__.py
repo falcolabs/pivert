@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Callable
 
 class Arm:
     id: str
@@ -6,7 +7,7 @@ class Arm:
     historical_rounds: list[int] # rounds where this arm was eligible
     probs: dict[int, float] # {X -> probability to chosen in round X}
 
-    pass
+    is_eligible: Callable[[dict[str, any]], bool]
 
 class PivertUserNotificationContext:
     chosen_arms: list[str] # Arm which is chosen in each round
@@ -26,6 +27,14 @@ class PivertUserNotificationContext:
         self.last_shown = last_shown
 
         self.current_round = len(chosen_arms) + 1
+
+
+    def add_arm(self, new_arm: Arm):
+        for arm in self.arms_pool:
+            if arm.id == new_arm.id:
+                raise ValueError(f"Arm with id {arm.id} already exists")
+
+        self.arms_pool.append(new_arm)
 
 
     def expected_reward_when_used(self, arm: Arm) -> float:
@@ -96,13 +105,12 @@ class PivertUserNotificationContext:
         return {k: p for k, p in zip(keys, probs)}
 
 
-    def get_eligible_arms(self) -> list[str]:
-        # Implement later
-        return [arm.id for arm in self.arms_pool]
+    def get_eligible_arms(self, real_time_context: dict[str, any]) -> list[str]:
+        return [arm.id for arm in self.arms_pool if arm.is_eligible(real_time_context)]
 
 
-    def choose_next_arm(self) -> tuple[str, dict[str, float]]:
-        eligible_arms = self.get_eligible_arms()
+    def choose_next_arm(self, real_time_context: dict[str, any]) -> tuple[str, dict[str, float]]:
+        eligible_arms = self.get_eligible_arms(real_time_context)
         scores: dict[str, float] = {}
 
         for arm in self.arms_pool:
