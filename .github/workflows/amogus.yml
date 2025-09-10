@@ -1,4 +1,4 @@
-name: amogus
+name: Build nest
 
 # Configures this workflow to run every time a change is pushed to the branch called `release`.
 on:
@@ -43,7 +43,7 @@ jobs:
               id: push
               uses: docker/build-push-action@v6
               with:
-                  file: "Containerfile"
+                  file: Containerfile
                   context: .
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
