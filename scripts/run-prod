@@ -1,5 +1,5 @@
 #!/bin/env sh
 
-source .venv/bin/activate4
-cd cd "$(dirname "$0")/../server"
+source .venv/bin/activate
+cd "$(dirname "$0")/../server"
 sudo .venv/bin/python3 run_prod.py
