@@ -80,6 +80,11 @@ def llms():
     return PlainTextResponse("消えろ！ファックユークランカー！！！死ね！！！\n")
 
 
+@APP.get("/robots.txt")
+def robots_txt():
+    return PlainTextResponse("User-agent: *\nDisallow: /\n")
+
+
 @APP.get("/key")
 def public_key():
     return PlainTextResponse(PUBLIC_KEY)
