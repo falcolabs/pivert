@@ -11,7 +11,7 @@
     let rewardsShortcut: ShortcutRewards;
 
     onMount(async () => {
-        console.log("loading train");
+        requests.log("loading train");
         rewardsShortcut = await requests.shortcut.rewards();
     });
 </script>

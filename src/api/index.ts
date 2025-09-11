@@ -1,39 +1,25 @@
 export * as requests from "./backend";
 import { writable, type Writable } from "svelte/store";
 import * as requests from "./backend";
-// import { LazyStore } from "@tauri-apps/plugin-store";
 import type * as schema from "./schema";
 
 export type * as schema from "./schema";
 
-// let _store: LazyStore;
-
 // @ts-expect-error
 export const loggedIn: Writable<boolean> = writable(null);
 
-export const loadStore = async () => {
-    // _store = new LazyStore("store.json", {
-    //     autoSave: true,
-    //     defaults: {
-    //         userID: null,
-    //         username: null,
-    //         user: null,
-    //         token: null,
-    //         habits: null,
-    //         todos: null,
-    //     },
-    // });
-    // _store.save();
-    // let t = await _store.get("token");
-    let t = window.localStorage.getItem("token")
-    console.log("syncing token", t);
-    requests.updateToken();
-    if (t !== "") {
-        loggedIn.set(true);
-        return;
-    }
+if (requests.token !== "") {
+    loggedIn.set(true);
+} else {
     loggedIn.set(false);
-};
+}
+// let t = window.localStorage.getItem("token");
+// requests.log("syncing token", t);
+// requests.updateToken();
+// if (t !== "") {
+//
+// }
+//
 
 export type StoreType = {
     userID: string;
@@ -65,18 +51,18 @@ export type StoreType = {
 export async function login(username: string, password: string): Promise<void> {
     let r = await requests.login(username, password);
     // await _store.set("token", r.access_token);
-    localStorage.setItem("token", r.access_token);
+    window.localStorage.setItem("token", r.access_token);
     requests.updateToken();
     loggedIn.set(true);
-    console.log("logged in");
+    requests.log("logged in");
 }
 
 export async function logout() {
     // await _store.set("token", null);
-    localStorage.setItem("token", "");
+    window.localStorage.setItem("token", "");
     requests.updateToken();
     loggedIn.set(false);
-    console.log("logged out");
+    requests.log("logged out");
 }
 
 // https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript

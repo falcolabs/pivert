@@ -52,11 +52,11 @@
             </form>
             <div class="other-login">
                 <button class="hover-darken login-with l-apple">
-                    <img src="/images/logo-apple.png" />
+                    <img src="/images/logo-apple.png" alt="logo apple" />
                     <h3>Đăng nhập với Apple</h3>
                 </button>
                 <button class="hover-darken login-with">
-                    <img src="/images/logo-google.png" />
+                    <img src="/images/logo-google.png" alt="logo google" />
                     <h3>Đăng nhập với Google</h3>
                 </button>
             </div>

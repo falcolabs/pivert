@@ -3,22 +3,15 @@
     import Home from "../components/sections/Home.svelte";
     import Social from "../components/sections/Social.svelte";
     import gsap from "gsap";
-    import { loggedIn, loadStore, logout } from "../api";
+    import { loggedIn, requests } from "../api";
     import Login from "../components/sections/Login.svelte";
-    import { onMount } from "svelte";
     import { fade } from "svelte/transition";
     import Train from "../components/sections/Train.svelte";
     import Settings from "../components/sections/Settings.svelte";
     import Rewards from "../components/sections/Rewards.svelte";
     import Load from "../components/Load.svelte";
 
-    const TEST_LOGIN = false;
-    onMount(async () => {
-        await loadStore();
-        if (TEST_LOGIN) {
-            await logout();
-        }
-    });
+    requests.log("here");
 
     let activeSection: keyof typeof SECTIONS_INDEX = $state("home");
     const SECTIONS_INDEX = {
@@ -34,19 +27,19 @@
         if (id == activeSection) return;
         let destination = SECTIONS_INDEX[id];
         let current = SECTIONS_INDEX[activeSection];
-        if (destination > current) {
-            section_list.push(destination);
-            gsap.to(".content:first-child", { x: "-50%", duration: 0.1 });
-            setTimeout(() => {
-                section_list.shift();
-                gsap.to(".content:first-child", { x: 0, y: 0, duration: 0 });
-            }, 150);
-        } else {
-            section_list.unshift(destination);
-            gsap.to(".content:first-child", { x: "-50%", duration: 0 });
-            section_list.pop();
-            gsap.to(".content:first-child", { x: 0, y: 0, duration: 0.1 });
-        }
+        // if (destination > current) {
+        //     section_list.push(destination);
+        //     gsap.to(".content:first-child", { x: "-50%", duration: 0.1 });
+        //     setTimeout(() => {
+        //         section_list.shift();
+        //         gsap.to(".content:first-child", { x: 0, y: 0, duration: 0 });
+        //     }, 150);
+        // } else {
+        //     section_list.unshift(destination);
+        //     gsap.to(".content:first-child", { x: "-50%", duration: 0 });
+        //     section_list.pop();
+        //     gsap.to(".content:first-child", { x: 0, y: 0, duration: 0.1 });
+        // }
         activeSection = id;
     };
 </script>
@@ -73,11 +66,7 @@
                 class="container-with-navbar"
             >
                 <div class="content">
-                    {#each section_list as id}
-                        <div>
-                            {@render section(id)}
-                        </div>
-                    {/each}
+                    {@render section(SECTIONS_INDEX[activeSection])}
                 </div>
                 <div class="nav">
                     <Navbar {activeSection} {swipeTo} />
@@ -87,6 +76,10 @@
             <div class="login-container" transition:fade={{ duration: 100 }}>
                 <Login />
             </div>
+        {:else if $loggedIn === null}
+            <Load until={false}>
+                <br />
+            </Load>
         {/if}
         {#snippet pending()}
             <Load until={false}>
@@ -97,7 +90,7 @@
 </main>
 
 <style lang="scss">
-    @use "../styles/_theme";
+    @use "../styles/_theme.sass";
 
     .nav {
         position: fixed;

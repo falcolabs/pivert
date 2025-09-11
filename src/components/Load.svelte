@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import { ROOT_URL, logEntries } from "../api/backend";
-
+    import LogDisplay from "./LogDisplay.svelte";
+    import { FORCE_DEV } from "../api/backend";
     let { children, until } = $props();
 </script>
 
@@ -12,7 +12,7 @@
 {:else}
     <div
         transition:fade={{ duration: 100 }}
-        class="fixed top-8 left-0 dodge-topbar flex flex-col items-center justify-between h-[120vh] w-full px-8"
+        class="fixed top-8 left-0 dodge-topbar flex flex-col items-center justify-between h-[80vh] w-full px-8"
     >
         <div>
             <svg
@@ -205,20 +205,18 @@
         </div>
 
         <div class="flex flex-col w-full items-center">
-            <h2 class="text-center">Thông tin gỡ lỗi</h2>
+            <h2 class="text-center">Nếu mất quá nhiều thời gian để tải</h2>
             <button
-                class="flex px-8 py-5 m-4 mb-[20vh] text-bold bg-green rounded-full cursor-pointer hover-darken"
+                class="flex px-8 py-5 m-4 text-bold bg-green rounded-full cursor-pointer hover-darken"
                 onclick={() => {
                     window.location.reload();
                 }}
             >
                 Reload lại ứng dụng
             </button>
-            <pre class="w-full h-full overflow-scroll max-h-[20vh]">
-Server IP: {ROOT_URL}
-Log:
-{logEntries.join("\n")}
-    </pre>
+            {#if FORCE_DEV}
+                <LogDisplay />
+            {/if}
         </div>
     </div>
 {/if}

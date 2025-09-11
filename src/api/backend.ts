@@ -1,28 +1,53 @@
 import { logout } from "./index";
+import { addLogEntry } from "./logger.svelte";
 import type * as schema from "./schema";
-export let token: string = "";
+
+export let token: string = window.localStorage.getItem("token")!;
+const LOCAL_NEST_IP = import.meta.env.VITE_PIVERT_NEST;
+export const FORCE_DEV = false;
+const ALLOW_BROWSER_FETCH = false;
 
 export const updateToken = () => {
     token = window.localStorage.getItem("token")!;
 };
 
-export let logEntries: string[] = [];
-
 export const log = (...le: any[]) => {
-    logEntries.push(JSON.stringify(le));
+    addLogEntry(JSON.stringify(le));
+    if (!ALLOW_BROWSER_FETCH && _log_info !== undefined) {
+        _log_info(JSON.stringify(le));
+        // invoke("transfer_log", { logtext: JSON.stringify(le) });
+    }
     console.log(...le);
 };
 
-updateToken();
+let invoke: (
+    cmd: string,
+    args?: import("@tauri-apps/api/core").InvokeArgs | undefined,
+    options?: import("@tauri-apps/api/core").InvokeOptions,
+) => any = async (...args: any[]) => {
+    if (ALLOW_BROWSER_FETCH) {
+        log("ivoke ignored in browser:", ...args);
+    }
+};
+
+let _log_info: (s: string) => Promise<void>;
 
 let fetch: (
     input: URL | Request | string,
     init?: RequestInit & import("@tauri-apps/plugin-http").ClientOptions,
 ) => Promise<Response> = window.fetch;
 
-if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
+if (Object.hasOwn(window, "__TAURI_INTERNALS__") && !ALLOW_BROWSER_FETCH) {
     import("@tauri-apps/plugin-http").then((r) => {
         fetch = r.fetch;
+    });
+    import("@tauri-apps/api/core").then((r) => {
+        invoke = r.invoke;
+    });
+
+    import("@tauri-apps/plugin-log").then((r) => {
+        let { info } = r;
+        _log_info = info;
     });
 } else {
     // fake @tauri-apps/plugin-http
@@ -32,11 +57,10 @@ if (Object.hasOwn(window, "__TAURI_INTERNALS__")) {
     });
 }
 
-const LOCAL_NEST_IP = import.meta.env.VITE_PIVERT_NEST;
-
-export const ROOT_URL = import.meta.env.PROD
-    ? "https://pivert.falcolabs.org"
-    : `http://${LOCAL_NEST_IP === undefined ? "localhost" : LOCAL_NEST_IP}:6942`;
+export const ROOT_URL =
+    import.meta.env.PROD || !FORCE_DEV
+        ? "https://pivert.falcolabs.org"
+        : `http://${LOCAL_NEST_IP === undefined ? "localhost" : LOCAL_NEST_IP}:6942`;
 
 export const reqURL = (
     path: string,
@@ -50,9 +74,9 @@ export const reqURL = (
         }
         return o;
     } catch (e) {
-        console.trace(e);
         log(e);
-        throw e;
+        console.trace(e);
+        return new URL("/");
     }
 };
 
@@ -61,6 +85,7 @@ export const bfetch = async (
     method: "GET" | "POST" = "GET",
     payload?: object | string,
 ): Promise<Response> => {
+    log("making request to", path);
     let r = await fetch(path, {
         method: method,
         headers: {
@@ -72,8 +97,10 @@ export const bfetch = async (
         },
         body: typeof payload === "string" ? payload : JSON.stringify(payload),
     });
+    log("returned shit");
     if (r.status != 200) {
         await logout();
+        log("error when making req: ", await r.clone().json());
         throw new Error(JSON.stringify(await r.json()));
     }
     log(path, "->", await r.clone().json());

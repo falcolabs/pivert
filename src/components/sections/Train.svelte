@@ -61,7 +61,7 @@
     ];
 
     onMount(async () => {
-        console.log("loading train");
+        requests.log("loading train");
         train = await requests.shortcut.train();
     });
 </script>

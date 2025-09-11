@@ -1,8 +1,8 @@
 <script lang="ts">
     import { monoco } from "@monokai/monoco-svelte";
     import { logout } from "../../api";
-    import { ROOT_URL, logEntries } from "../../api/backend";
     import Leaf from "../Leaf.svelte";
+    import LogDisplay from "../LogDisplay.svelte";
 </script>
 
 <Leaf>
@@ -21,12 +21,8 @@
         >
             Logout
         </button>
-        
+
         <h2>Thông tin gỡ lỗi</h2>
-        <pre class="w-full h-full overflow-scroll max-h-[70vh]">
-Server IP: {ROOT_URL}
-Log:
-{logEntries.join("\n")}
-        </pre>
+        <LogDisplay />
     </div>
 </Leaf>
