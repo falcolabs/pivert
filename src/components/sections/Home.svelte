@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { requests, toRomanNumerals } from "../../api";
     import Leaf from "../Leaf.svelte";
-    import type { ShortcutHome, ShortcutTasks } from "../../api/shortcuts";
+    import type { ShortcutHome } from "../../api/shortcuts";
     import Load from "../Load.svelte";
     import {
         ArrowRight,
@@ -31,14 +31,12 @@
 
     // @ts-expect-error
     let home: ShortcutHome = $state();
-    // @ts-expect-error
-    let tasks: ShortcutTasks = $state();
     let lvlcat = $state("cancu");
     let clevel = $state(1);
 
     onMount(async () => {
+        requests.log("making home");
         home = await requests.shortcut.home();
-        tasks = await requests.shortcut.tasks();
         lvlcat = home.user.achievements.leveling[0].category;
         clevel = getCurrentLevel(
             home.user.metrics.allTimeXP,
@@ -49,7 +47,7 @@
 </script>
 
 <Leaf>
-    <Load until={home !== undefined && tasks !== undefined}>
+    <Load until={home !== undefined}>
         <div class="flex flex-col w-full dodge-topbar px-8 gap-4">
             <div class="flex flex-row items-center justify-between mt-4">
                 <div class="flex flex-row items-center gap-4">
