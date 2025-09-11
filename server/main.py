@@ -10,7 +10,7 @@ from enum import Enum
 
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
-from fastapi.responses import PlainTextResponse, JSONResponse
+from fastapi.responses import PlainTextResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,11 +19,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 PUBLIC_KEY, PRIVATE_KEY = _crypto.init_keystore()
 APP = fastapi.FastAPI()
 
-origins = ["http://localhost", "http://localhost:1420", "http://**"]
-
 APP.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
