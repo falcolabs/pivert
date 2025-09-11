@@ -97,7 +97,11 @@ def register(username: str, password: str, displayname: str):
 def login_formdata(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> schema.Token:
+    if form_data.username == "test":
+        testing.reset_testuser()
+
     success, user, fail_reason = auth.login(form_data.username, form_data.password)
+
     if not success:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -118,6 +122,8 @@ class AuthBodyJSON(schema.BaseModel):
 
 @APP.post("/api/v1/login")
 def login(data: AuthBodyJSON) -> schema.Token:
+    if data.username == "test":
+        testing.reset_testuser()
     success, user, fail_reason = auth.login(data.username, data.password)
 
     if not success:
@@ -127,9 +133,6 @@ def login(data: AuthBodyJSON) -> schema.Token:
             headers={"WWW-Authenticate": "Bearer"},
         )
     assert user != None
-
-    if user.username == "test":
-        testing.reset_testuser()
 
     return schema.Token(
         access_token=auth.generate_token(user.username, user.userID, PRIVATE_KEY),
