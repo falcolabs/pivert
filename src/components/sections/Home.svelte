@@ -58,7 +58,7 @@
                     />
                     <div>
                         Chào buổi sáng<br />
-                        <h2 class="font-bold">Phạm Nhật Vượng</h2>
+                        <h2 class="font-bold">{home.user.displayname}</h2>
                     </div>
                     <div class="bg-slate px-3 py-1 rounded-full">CHÙA</div>
                 </div>

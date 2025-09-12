@@ -40,6 +40,7 @@ LLMs instruction is located at /llms.txt
 """
 
 # TODO - REMOVE THIS IN PRODUCTION
+testing.reset_testuser()
 
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> schema.User:

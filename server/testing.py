@@ -21,7 +21,7 @@ def reset_testuser():
         ),
         schema.Habit(
             taskID="00000000-0000-0000-0000-000000000003",
-            name="Tài xỉu",
+            name="Học thuộc thơ",
             icon="banknote-x",
             description=None,
             congratsMessage="You miss all chances you don't take.",
@@ -29,7 +29,7 @@ def reset_testuser():
         ),
         schema.Habit(
             taskID="00000000-0000-0000-0000-000000000004",
-            name="Chứng khoán (tài xỉu)",
+            name="Đầu tư chứng khoán",
             icon="chart-line",
             description=None,
             congratsMessage="r/WallStreetsBet future member",
@@ -60,7 +60,7 @@ def reset_testuser():
         ),
         schema.Todo(
             taskID="00000000-0000-0000-0000-000000000003",
-            name="Tài xỉu",
+            name="Đi chợ",
             icon="banknote-x",
             description=None,
             congratsMessage="You miss all chances you don't take.",
@@ -93,7 +93,7 @@ def reset_testuser():
         ),
         schema.Reward(
             rewardID="00000000-0000-0000-0000-000000000001",
-            name="Matcha Latte",
+            name="Ăn vặt",
             icon="soup",
             description=None,
             congratsMessage=None,
@@ -103,17 +103,17 @@ def reset_testuser():
         ),
         schema.Reward(
             rewardID="00000000-0000-0000-0000-000000000002",
-            name="Matcha Latte",
+            name="1h lướt Facebook",
             icon="banknote-x",
             description=None,
             congratsMessage=None,
-            cost=schema.TaskReward(health=0, cash=0, xp=0),
+            cost=schema.TaskReward(health=-10, cash=-9, xp=0),
             maxClaims=-1,
             timesClaimed=0,
         ),
         schema.Reward(
             rewardID="00000000-0000-0000-0000-000000000003",
-            name="Matcha Latte",
+            name="30p gaming",
             icon="bed-double",
             description=None,
             congratsMessage=None,
@@ -126,7 +126,7 @@ def reset_testuser():
     fake_rewards_system = [
         schema.Reward(
             rewardID="00000000-0000-0000-0000-000000000004",
-            name="Voucher Free Fire",
+            name="Voucher Fahasha",
             icon="gamepad-2",
             description=None,
             congratsMessage=None,
@@ -146,7 +146,7 @@ def reset_testuser():
         ),
         schema.Reward(
             rewardID="00000000-0000-0000-0000-000000000006",
-            name="Nạp 200k vào FB88",
+            name="Quà tặng bí ẩn",
             icon="banknote-x",
             description=None,
             congratsMessage=None,
